@@ -41,7 +41,7 @@ export default function Header({ v }) {
     >
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px", height: 74, display: "flex", alignItems: "center", gap: 36 }}>
         <div onClick={v.navLanding} style={{ cursor: "pointer", display: "flex", alignItems: "center", flex: "none" }}>
-          <Image src="/brand/rln-lockup.png" alt="Retreat Leaders Network" height={30} width={182} style={{ height: 30, display: "block" }} priority />
+          <Image src="/brand/rln-lockup.png" alt="Retreat Leaders Network" height={30} width={220} style={{ height: 30, display: "block" }} priority />
         </div>
         <div style={{ display: "flex", gap: 26, alignItems: "center" }}>
           <NavLink onClick={v.navExplore}>Explore Retreats</NavLink>
