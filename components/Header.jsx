@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import ImageSlot from "./ImageSlot";
-import { A } from "../lib/ui";
+import { A, INK } from "../lib/ui";
 
 function NavLink({ onClick, children }) {
   const [hover, setHover] = useState(false);
@@ -40,8 +40,15 @@ export default function Header({ v }) {
       }}
     >
       <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px", height: 74, display: "flex", alignItems: "center", gap: 36 }}>
-        <div onClick={v.navLanding} style={{ cursor: "pointer", display: "flex", alignItems: "center", flex: "none" }}>
-          <img src="/brand/rln-lockup.png" alt="Retreat Leaders Network" width="182" height="30" style={{ display: "block" }} />
+        <div onClick={v.navLanding} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 10, flex: "none" }}>
+          {/* The exported lockup PNG has its wordmark cropped at the top edge
+              (a bad source export, not a sizing bug) — use the clean mark
+              icon plus live text instead, so it always renders crisp. */}
+          <Image src="/brand/rln-mark.png" alt="" width={26} height={28} style={{ display: "block" }} priority />
+          <span style={{ fontFamily: "var(--font-serif), Georgia, serif", fontSize: 19, whiteSpace: "nowrap" }}>
+            <span style={{ color: INK }}>Retreat Leaders </span>
+            <span style={{ color: A }}>Network</span>
+          </span>
         </div>
         <div style={{ display: "flex", gap: 26, alignItems: "center" }}>
           <NavLink onClick={v.navExplore}>Explore Retreats</NavLink>
