@@ -91,6 +91,7 @@ export default function Header({ v }) {
                 </div>
                 <span style={{ fontSize: 12.5, color: "#7d6a5f" }}>{v.userLabel}</span>
               </div>
+              <NavLink onClick={v.logout}>Log out</NavLink>
             </>
           )}
         </div>

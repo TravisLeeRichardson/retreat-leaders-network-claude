@@ -31,16 +31,22 @@ export default function Login({ v }) {
         const { data, error: signUpError } = await signUp(email, password, name, selectedRole);
         if (signUpError) throw signUpError;
 
-        // Redirect to app after signup
-        v.flash("Welcome! Check your email to confirm your account.");
-        v.go("landing");
+        if (data.session) {
+          // Email confirmation is off — Supabase returned a live session,
+          // so send them wherever they were headed before the login gate.
+          v.flash("Welcome to the network!");
+          v.go(v.loginDest);
+        } else {
+          // Email confirmation is required — no session yet.
+          v.flash("Check your email to confirm your account.");
+          v.go("landing");
+        }
       } else {
         const { data, error: signInError } = await signIn(email, password);
         if (signInError) throw signInError;
 
-        // Redirect to app after signin
         v.flash("Logged in successfully!");
-        v.go("landing");
+        v.go(v.loginDest);
       }
     } catch (err) {
       setError(err.message);
