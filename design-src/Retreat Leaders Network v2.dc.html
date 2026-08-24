@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"><script src="./image-slot.js"></script><style>*{box-sizing:border-box}body{margin:0;background:#fefaf4;color:#30231e;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#8c5239;text-decoration:none}a:hover{color:#30231e}input,textarea,select,button{font-family:inherit;color:inherit}::placeholder{color:#a3948a}</style></helmet>
+
+<div style="min-height:100vh;background:#fefaf4">
+
+<div style="position:sticky;top:0;z-index:40;background:rgba(254,250,244,.94);backdrop-filter:blur(10px);border-bottom:1px solid #e8ded2">
+  <div style="max-width:1240px;margin:0 auto;padding:0 40px;height:74px;display:flex;align-items:center;gap:36px">
+    <div onClick="{{ navLanding }}" style="cursor:pointer;display:flex;align-items:center;flex:none"><img src="brand/rln-lockup.png" alt="Retreat Leaders Network" style="height:30px;width:auto;display:block"></div>
+    <div style="display:flex;gap:26px;align-items:center">
+      <span onClick="{{ navExplore }}" style="cursor:pointer;font-size:13.5px;font-weight:500;color:#5f524a;letter-spacing:.01em" style-hover="color:#8c5239">Explore Retreats</span>
+      <span onClick="{{ navLeaders }}" style="cursor:pointer;font-size:13.5px;font-weight:500;color:#5f524a" style-hover="color:#8c5239">Find Leaders</span>
+      <span onClick="{{ navCreate }}" style="cursor:pointer;font-size:13.5px;font-weight:500;color:#5f524a" style-hover="color:#8c5239">Create a Retreat</span>
+      <span onClick="{{ navHow }}" style="cursor:pointer;font-size:13.5px;font-weight:500;color:#5f524a" style-hover="color:#8c5239">How It Works</span>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:18px">
+      <sc-if value="{{ isGuest }}" hint-placeholder-val="{{ true }}">
+        <span onClick="{{ navLogin }}" style="cursor:pointer;font-size:13.5px;font-weight:500;color:#5f524a" style-hover="color:#8c5239">Log In</span>
+      </sc-if>
+      <sc-if value="{{ isGuest }}" hint-placeholder-val="{{ true }}">
+        <span onClick="{{ navLogin }}" style="cursor:pointer;padding:12px 20px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Join the Network</span>
+      </sc-if>
+      <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ false }}">
+        <span onClick="{{ navDash }}" style="cursor:pointer;font-size:13.5px;font-weight:600;color:#8c5239">Dashboard</span>
+      </sc-if>
+      <sc-if value="{{ isAuthed }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ navProfile }}" style="cursor:pointer;display:flex;align-items:center;gap:9px">
+          <div style="width:34px;height:34px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2"><image-slot id="nav-avatar" shape="circle" placeholder=""></image-slot></div>
+          <span style="font-size:12.5px;color:#7d6a5f">{{ userLabel }}</span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:60;background:#30231e;color:#fefaf4;padding:14px 24px;border-radius:3px;font-size:13.5px;box-shadow:0 12px 34px rgba(48,35,30,.28)">{{ toast }}</div>
+</sc-if>
+
+<sc-if value="{{ onLanding }}" hint-placeholder-val="{{ true }}">
+<div>
+  <div style="position:relative;height:640px;overflow:hidden">
+    <div style="position:absolute;inset:0"><image-slot id="hero-landing" shape="rect" fit="cover" placeholder="Drop your hero image — a wide landscape or group moment"></image-slot></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,26,22,.5) 0%,rgba(36,26,22,.28) 45%,rgba(36,26,22,.72) 100%);pointer-events:none"></div>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;pointer-events:none">
+      <div style="max-width:1240px;margin:0 auto;padding:0 40px;width:100%">
+        <div style="max-width:780px">
+          <div style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(254,250,244,.72);margin-bottom:26px">The network behind extraordinary retreats</div>
+          <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:74px;line-height:1.04;color:#fefaf4;letter-spacing:-.015em;text-wrap:pretty">Create. Lead. Experience.<br><em style="font-style:italic;color:#e6b898">Extraordinary Retreats.</em></h1>
+          <p style="margin:28px 0 0;max-width:600px;font-size:17px;line-height:1.65;color:rgba(254,250,244,.86);text-wrap:pretty">Retreat Leaders Network connects retreat organizers with the experts, leaders, and resources they need to create exceptional retreats.</p>
+          <div style="display:flex;gap:14px;margin-top:38px;pointer-events:auto">
+            <span onClick="{{ navCreate }}" style="cursor:pointer;padding:17px 30px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#a35f42">Create a Retreat</span>
+            <span onClick="{{ navExplore }}" style="cursor:pointer;padding:17px 30px;border:1px solid rgba(254,250,244,.5);color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:rgba(254,250,244,.12)">Explore Retreats</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:112px 40px 0">
+    <div style="display:flex;align-items:baseline;gap:20px;margin-bottom:52px">
+      <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:42px;line-height:1.15;color:#30231e;max-width:520px;text-wrap:pretty">A retreat takes more than one person.</h2>
+      <p style="margin:0 0 0 auto;max-width:400px;font-size:14.5px;line-height:1.7;color:#7d6a5f">Three sides of the same experience. Today the network connects the first two — organizers and leaders.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+      <div style="display:flex;flex-direction:column">
+        <div style="height:260px;border:1px solid #e8ded2"><image-slot id="eco-organizers" shape="rect" placeholder="Organizer / host imagery"></image-slot></div>
+        <div style="padding-top:24px">
+          <div style="font-family:'EB Garamond',serif;font-size:25px;color:#30231e">Organizers</div>
+          <p style="margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#7d6a5f">Create retreats — define the experience, the audience, and the leaders you need beside you.</p>
+          <span onClick="{{ navCreate }}" style="cursor:pointer;display:inline-block;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">Create a retreat →</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <div style="height:260px;border:1px solid #e8ded2"><image-slot id="eco-leaders" shape="rect" placeholder="Expert speaking to a small group"></image-slot></div>
+        <div style="padding-top:24px">
+          <div style="font-family:'EB Garamond',serif;font-size:25px;color:#30231e">Leaders</div>
+          <p style="margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#7d6a5f">Bring expertise and audiences — teach, facilitate, speak, and grow your practice on the road.</p>
+          <span onClick="{{ navLeaders }}" style="cursor:pointer;display:inline-block;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">Browse leaders →</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;opacity:.6">
+        <div style="height:260px;border:1px solid #e8ded2"><image-slot id="eco-participants" shape="rect" placeholder="Participants / group experience"></image-slot></div>
+        <div style="padding-top:24px">
+          <div style="font-family:'EB Garamond',serif;font-size:25px;color:#30231e">Participants</div>
+          <p style="margin:8px 0 0;font-size:14.5px;line-height:1.7;color:#7d6a5f">Discover exceptional experiences — and the people leading them.</p>
+          <span style="display:inline-block;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a3948a">Opening 2027</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:112px;background:#30231e;color:#fefaf4">
+    <div style="max-width:1240px;margin:0 auto;padding:88px 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:72px;align-items:center">
+      <div>
+        <div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#c98e6c;margin-bottom:22px">Featured program · 4 seats</div>
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:46px;line-height:1.1;color:#fefaf4;text-wrap:pretty">The Founding Leader Cohort</h2>
+        <p style="margin:22px 0 0;font-size:16px;line-height:1.7;color:rgba(254,250,244,.78);max-width:480px;text-wrap:pretty">One year, three retreats, three roles. Participate in Japan, co-lead in Costa Rica, co-create Asheville with a profit share — then run your own with the network behind you.</p>
+        <div style="display:flex;gap:0;margin:34px 0 0;border-top:1px solid rgba(254,250,244,.16)">
+          <div style="flex:1;padding:18px 18px 18px 0;border-right:1px solid rgba(254,250,244,.16)"><div style="font-family:'EB Garamond',serif;font-size:19px;color:#e6b898">Japan</div><div style="font-size:12px;color:rgba(254,250,244,.6);margin-top:4px">Apr 2027 · Participate</div></div>
+          <div style="flex:1;padding:18px;border-right:1px solid rgba(254,250,244,.16)"><div style="font-family:'EB Garamond',serif;font-size:19px;color:#e6b898">Costa Rica</div><div style="font-size:12px;color:rgba(254,250,244,.6);margin-top:4px">Nov 2027 · Lead</div></div>
+          <div style="flex:1;padding:18px 0 18px 18px"><div style="font-family:'EB Garamond',serif;font-size:19px;color:#e6b898">Asheville</div><div style="font-size:12px;color:rgba(254,250,244,.6);margin-top:4px">Apr 2028 · Co-create</div></div>
+        </div>
+        <div style="display:flex;gap:14px;margin-top:34px">
+          <span onClick="{{ navCohort }}" style="cursor:pointer;padding:16px 28px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#a35f42">View the program</span>
+          <a href="https://www.retreatleadersnetwork.com/" target="_blank" style="padding:16px 28px;border:1px solid rgba(254,250,244,.4);color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:rgba(254,250,244,.1)">Apply on the site</a>
+        </div>
+      </div>
+      <div style="height:440px"><image-slot id="cohort-feature" shape="rect" placeholder="Cohort / group photo"></image-slot></div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:104px 40px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:44px">
+      <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:38px;color:#30231e">Retreats seeking leaders</h2>
+      <span onClick="{{ navExplore }}" style="cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">See all retreats →</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px">
+      <sc-for list="{{ featured }}" as="r" hint-placeholder-count="3">
+        <div onClick="{{ r.open }}" style="cursor:pointer;border:1px solid #e8ded2;background:#fffdfa" style-hover="border-color:#c9ab93">
+          <div style="height:200px"><image-slot id="{{ r.slot }}" shape="rect" placeholder="Retreat image"></image-slot></div>
+          <div style="padding:22px">
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">{{ r.badge }}</div>
+            <div style="font-family:'EB Garamond',serif;font-size:24px;line-height:1.2;color:#30231e;margin-top:10px">{{ r.name }}</div>
+            <div style="font-size:13px;color:#7d6a5f;margin-top:8px">{{ r.meta }}</div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #f0e7db">
+              <div style="font-size:12.5px;color:#8c5239;font-weight:600">{{ r.needsStrip }}</div>
+              <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
+                <div style="flex:1;height:4px;background:#f0e7db"><div style="height:4px;width:{{ r.pct }};background:#8c5239"></div></div>
+                <span style="font-size:11px;color:#a3948a;white-space:nowrap">{{ r.readiness }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid #e8ded2">
+    <div style="max-width:1240px;margin:0 auto;padding:72px 40px">
+      <div style="display:flex;gap:56px;align-items:flex-start">
+        <div style="max-width:340px;flex:none">
+          <h3 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:30px;color:#30231e;text-wrap:pretty">The rest of the ecosystem is coming.</h3>
+          <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#7d6a5f">Every retreat needs more than leaders. These join the network next — media and promotion is already live through Be Well Asheville.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;flex:1">
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Venues</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Practitioners</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Photographers</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Videographers</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Chefs</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Transportation</div>
+          <div style="border:1px solid #eee4d8;padding:18px;color:#a3948a;font-size:13.5px">Other services</div>
+          <div style="border:1px solid #d9bda6;background:#f9f0e8;padding:18px;color:#8c5239;font-size:13.5px;font-weight:600">Media &amp; promotion ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#30231e;color:rgba(254,250,244,.6)">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 40px;display:flex;align-items:center;gap:40px">
+      <div style="font-family:'EB Garamond',serif;font-size:20px;color:#fefaf4">Retreat Leaders Network</div>
+      <div style="font-size:13px">Experience it. Lead it. Create it. Own it.</div>
+      <div style="margin-left:auto;font-size:12.5px">Prototype · Asheville, North Carolina</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onExplore }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1240px;margin:0 auto;padding:52px 40px 100px">
+  <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">Explore retreats</h1>
+  <p style="margin:10px 0 0;font-size:15px;color:#7d6a5f">{{ resultCount }} retreats in the network · {{ seekingCount }} currently seeking leaders</p>
+
+  <div style="margin-top:34px;border:1px solid #e8ded2;background:#fffdfa;padding:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+    <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Search retreats, topics, hosts" style="flex:1;min-width:220px;padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none">
+    <select value="{{ loc }}" onChange="{{ setLoc }}" style="padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none"><option value="">Any location</option><option value="Costa Rica">Costa Rica</option><option value="United States">United States</option><option value="Japan">Japan</option><option value="Peru">Peru</option><option value="Portugal">Portugal</option></select>
+    <select value="{{ when }}" onChange="{{ setWhen }}" style="padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none"><option value="">Any dates</option><option value="2027">2027</option><option value="2028">2028</option></select>
+    <select value="{{ cat }}" onChange="{{ setCat }}" style="padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none"><option value="">All categories</option><option value="Wellness">Wellness</option><option value="Longevity">Longevity</option><option value="Business">Business</option><option value="Personal development">Personal development</option></select>
+    <select value="{{ price }}" onChange="{{ setPrice }}" style="padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none"><option value="">Any price</option><option value="low">Under $6k</option><option value="mid">$6k–$10k</option><option value="high">$10k+</option><option value="inv">By invitation</option></select>
+    <select value="{{ dur }}" onChange="{{ setDur }}" style="padding:12px 14px;border:1px solid #e8ded2;background:#fefaf4;font-size:13.5px;border-radius:2px;outline:none"><option value="">Any length</option><option value="short">3–6 days</option><option value="long">7+ days</option></select>
+    <span onClick="{{ toggleSeeking }}" style="cursor:pointer;padding:11px 18px;border:1px solid #8c5239;background:{{ seekingBg }};color:{{ seekingFg }};font-size:12px;font-weight:600;letter-spacing:.06em;border-radius:2px">Seeking Leaders</span>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap">
+    <span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a">Show retreats needing</span>
+    <sc-for list="{{ needFilters }}" as="n" hint-placeholder-count="7">
+      <span onClick="{{ n.pick }}" style="cursor:pointer;padding:9px 15px;border:1px solid {{ n.bd }};background:{{ n.bg }};color:{{ n.fg }};font-size:12px;border-radius:2px">{{ n.label }}</span>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:32px">
+    <sc-for list="{{ retreats }}" as="r" hint-placeholder-count="4">
+      <div style="border:1px solid #e8ded2;background:#fffdfa;display:flex;flex-direction:column" style-hover="border-color:#c9ab93">
+        <div onClick="{{ r.open }}" style="cursor:pointer;height:250px;position:relative">
+          <image-slot id="{{ r.slot }}" shape="rect" placeholder="Retreat image"></image-slot>
+        </div>
+        <div style="padding:26px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;align-items:baseline;gap:12px">
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">{{ r.badge }}</div>
+            <div style="margin-left:auto;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a">{{ r.category }}</div>
+          </div>
+          <div onClick="{{ r.open }}" style="cursor:pointer;font-family:'EB Garamond',serif;font-size:29px;line-height:1.15;color:#30231e">{{ r.name }}</div>
+          <div style="font-size:13px;color:#7d6a5f;letter-spacing:.02em">{{ r.meta }}</div>
+          <p style="margin:0;font-size:14.5px;line-height:1.65;color:#5f524a;text-wrap:pretty">{{ r.blurb }}</p>
+          <div style="border:1px solid #eee4d8;background:#faf5ee;padding:16px">
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+              <span style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a">Production</span>
+              <span style="margin-left:auto;font-size:11.5px;color:#a3948a">{{ r.readiness }}</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ r.openBadges }}" as="b" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="width:19px;height:19px;border-radius:50%;background:#f4e2cf;border:1px solid #d9bda6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#8c5239;flex:none">?</span>
+                    <span style="font-size:12.5px;color:#8c5239;font-weight:500;line-height:1.3">{{ b.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ r.lockedBadges }}" as="b" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="width:19px;height:19px;border-radius:50%;background:#e6ece0;border:1px solid #cfd8c4;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#5c6b4a;flex:none">✓</span>
+                    <span style="font-size:12.5px;color:#5f524a;line-height:1.3">{{ b.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="height:4px;background:#f0e7db;margin-top:14px"><div style="height:4px;width:{{ r.pct }};background:#8c5239"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding-top:6px;border-top:1px solid #f0e7db;margin-top:auto">
+            <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2;flex:none"><image-slot id="{{ r.hostSlot }}" shape="circle" placeholder=""></image-slot></div>
+            <div style="font-size:12.5px;color:#7d6a5f">{{ r.host }}</div>
+            <div style="margin-left:auto;font-family:'EB Garamond',serif;font-size:20px;color:#30231e">{{ r.price }}</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <span onClick="{{ r.open }}" style="cursor:pointer;flex:1;text-align:center;padding:14px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#a35f42">View Retreat</span>
+            <span onClick="{{ r.save }}" style="cursor:pointer;padding:14px 18px;border:1px solid #ddd0c2;color:#5f524a;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">Save</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onRetreat }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="position:relative;height:520px;overflow:hidden">
+    <div style="position:absolute;inset:0"><image-slot id="retreat-hero" shape="rect" placeholder="Drop the retreat hero image"></image-slot></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,26,22,.32) 0%,rgba(36,26,22,.18) 40%,rgba(36,26,22,.78) 100%);pointer-events:none"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;pointer-events:none">
+      <div style="max-width:1240px;margin:0 auto;padding:0 40px 46px">
+        <span onClick="{{ navExplore }}" style="pointer-events:auto;cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,250,244,.75)">← All retreats</span>
+        <div style="font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#e6b898;margin:22px 0 14px">{{ retreat.kicker }}</div>
+        <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:60px;line-height:1.06;color:#fefaf4;max-width:800px;text-wrap:pretty">{{ retreat.name }}</h1>
+        <div style="display:flex;gap:26px;margin-top:22px;font-size:13.5px;color:rgba(254,250,244,.85)">
+          <span>{{ retreat.location }}</span><span>{{ retreat.dates }}</span><span>{{ retreat.duration }}</span><span>{{ retreat.groupSize }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:56px 40px 110px;display:grid;grid-template-columns:1fr 372px;gap:72px;align-items:start">
+    <div>
+      <div style="display:flex;align-items:center;gap:14px;padding-bottom:28px;border-bottom:1px solid #e8ded2">
+        <div style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2;flex:none"><image-slot id="retreat-host" shape="circle" placeholder=""></image-slot></div>
+        <div>
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a">Organized by</div>
+          <div style="font-family:'EB Garamond',serif;font-size:22px;color:#30231e;margin-top:3px">{{ retreat.host }}</div>
+        </div>
+        <span onClick="{{ viewHost }}" style="margin-left:auto;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">View profile →</span>
+      </div>
+
+      <div style="margin-top:38px;border:1px solid #e8ded2;background:#fffdfa">
+        <div style="display:flex;align-items:baseline;gap:14px;padding:22px 24px;border-bottom:1px solid #f0e7db">
+          <div>
+            <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8c5239">This retreat still needs</div>
+            <div style="font-family:'EB Garamond',serif;font-size:27px;color:#30231e;margin-top:6px">{{ retreat.short }} · production board</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:12px">
+              <div style="width:180px;height:5px;background:#f0e7db"><div style="height:5px;width:{{ boardPct }};background:#8c5239"></div></div>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8c5239">{{ boardReadiness }}</span>
+            </div>
+          </div>
+          <span onClick="{{ startApply }}" style="margin-left:auto;cursor:pointer;padding:13px 20px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Claim a slot</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#f0e7db">
+          <sc-for list="{{ needs }}" as="n" hint-placeholder-count="6">
+            <div onClick="{{ n.act }}" style="cursor:pointer;border:1px solid {{ n.bd }};background:{{ n.bg }};padding:20px;display:flex;flex-direction:column;gap:8px" style-hover="border-color:#8c5239">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:22px;height:22px;border-radius:50%;border:1px solid {{ n.bd }};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:{{ n.fg }};flex:none">{{ n.mark }}</span>
+                <span style="font-family:'EB Garamond',serif;font-size:20px;color:#30231e">{{ n.label }}</span>
+                <span style="margin-left:auto;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:{{ n.fg }}">{{ n.state }}</span>
+              </div>
+              <div style="font-size:12.5px;line-height:1.5;color:#7d6a5f">{{ n.detail }}</div>
+              <div style="font-size:12px;color:#a3948a;margin-top:auto">{{ n.who }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <p style="margin:44px 0 0;font-family:'EB Garamond',serif;font-size:25px;line-height:1.5;color:#30231e;text-wrap:pretty">{{ retreat.lede }}</p>
+      <p style="margin:24px 0 0;font-size:15.5px;line-height:1.8;color:#5f524a;text-wrap:pretty">{{ retreat.body }}</p>
+
+      <div style="margin-top:56px">
+        <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a;margin-bottom:8px">Philosophy</div>
+        <p style="margin:0;font-size:15.5px;line-height:1.8;color:#5f524a;max-width:660px;text-wrap:pretty">{{ retreat.philosophy }}</p>
+      </div>
+
+      <div style="margin-top:64px">
+        <h2 style="margin:0 0 26px;font-family:'EB Garamond',serif;font-weight:400;font-size:34px;color:#30231e">Trip elements</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+          <sc-for list="{{ elements }}" as="e" hint-placeholder-count="9">
+            <div style="border:1px solid #e8ded2;background:#fffdfa">
+              <div style="height:132px"><image-slot id="{{ e.slot }}" shape="rect" placeholder=""></image-slot></div>
+              <div style="padding:16px">
+                <div style="font-size:10.5px;letter-spacing:.14em;color:#c9ab93">{{ e.num }}</div>
+                <div style="font-family:'EB Garamond',serif;font-size:19px;line-height:1.25;color:#30231e;margin-top:6px">{{ e.name }}</div>
+                <p style="margin:7px 0 0;font-size:12.5px;line-height:1.6;color:#7d6a5f">{{ e.desc }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:64px">
+        <h2 style="margin:0 0 22px;font-family:'EB Garamond',serif;font-weight:400;font-size:34px;color:#30231e">Schedule overview</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="9">
+            <div onClick="{{ d.pick }}" style="cursor:pointer;flex:1;min-width:96px;border:1px solid {{ d.bd }};background:{{ d.bg }};padding:14px 12px">
+              <div style="font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#a3948a">{{ d.label }}</div>
+              <div style="font-size:13px;color:#30231e;margin-top:6px;font-weight:500">{{ d.title }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:24px;margin-top:20px;border:1px solid #e8ded2;background:#fffdfa;padding:22px">
+          <div style="width:200px;height:130px;flex:none"><image-slot id="day-detail" shape="rect" placeholder=""></image-slot></div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">{{ day.label }}</div>
+            <div style="font-family:'EB Garamond',serif;font-size:26px;color:#30231e;margin-top:8px">{{ day.title }}</div>
+            <p style="margin:10px 0 0;font-size:14.5px;line-height:1.7;color:#5f524a;max-width:520px">{{ day.desc }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:64px">
+        <h2 style="margin:0 0 18px;font-family:'EB Garamond',serif;font-weight:400;font-size:34px;color:#30231e">Who it's for</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <sc-for list="{{ audience }}" as="a" hint-placeholder-count="4">
+            <span style="padding:11px 18px;background:#f7f0e7;border:1px solid #eee4d8;font-size:13.5px;color:#5f524a">{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:64px">
+        <h2 style="margin:0 0 22px;font-family:'EB Garamond',serif;font-weight:400;font-size:34px;color:#30231e">Current leaders</h2>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          <sc-for list="{{ crew }}" as="c" hint-placeholder-count="4">
+            <div onClick="{{ c.open }}" style="cursor:pointer;width:168px;border:1px solid #e8ded2;background:#fffdfa;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px">
+              <div style="width:74px;height:74px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2"><image-slot id="{{ c.slot }}" shape="circle" placeholder=""></image-slot></div>
+              <div style="text-align:center">
+                <div style="font-family:'EB Garamond',serif;font-size:18px;color:#30231e">{{ c.name }}</div>
+                <div style="font-size:11.5px;color:#7d6a5f;margin-top:4px">{{ c.role }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:64px;border:1px solid #d9bda6;background:#f9f0e8;padding:38px">
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:36px;color:#30231e">We're Looking For</h2>
+        <p style="margin:12px 0 26px;font-size:14.5px;line-height:1.7;color:#7d6a5f;max-width:560px">{{ retreat.seekingNote }}</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ slots }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:18px;background:#fffdfa;border:1px solid #e8ded2;padding:20px 22px">
+              <div>
+                <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e">{{ s.role }}</div>
+                <div style="font-size:12.5px;color:#7d6a5f;margin-top:4px">{{ s.detail }}</div>
+              </div>
+              <div style="margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8c5239">{{ s.status }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e2c9b3">
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a;margin-bottom:10px">What the organizer is looking for</div>
+          <p style="margin:0;font-size:14.5px;line-height:1.75;color:#5f524a;max-width:620px">{{ retreat.wants }}</p>
+        </div>
+        <span onClick="{{ startApply }}" style="cursor:pointer;display:inline-block;margin-top:30px;padding:18px 34px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Apply to Lead This Retreat</span>
+      </div>
+    </div>
+
+    <div style="position:sticky;top:106px;display:flex;flex-direction:column;gap:18px">
+      <div style="border:1px solid #e8ded2;background:#fffdfa;padding:28px">
+        <div style="font-family:'EB Garamond',serif;font-size:34px;color:#30231e">{{ retreat.price }}</div>
+        <div style="font-size:12.5px;color:#7d6a5f;margin-top:5px">{{ retreat.priceNote }}</div>
+        <div style="margin:22px 0;height:1px;background:#f0e7db"></div>
+        <div style="font-size:13px;line-height:1.6;color:#8c5239;font-weight:600">{{ retreat.leaderTerms }}</div>
+        <div style="margin-top:18px;padding:18px;border:1px solid #d9bda6;background:#f9f0e8">
+          <div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">Seat credit</div>
+          <div style="font-family:'EB Garamond',serif;font-size:19px;line-height:1.3;color:#30231e;margin-top:8px">{{ seatCredit.headline }}</div>
+          <div style="height:6px;background:#eddcc9;margin-top:14px"><div style="height:6px;width:{{ seatCredit.pct }};background:#8c5239"></div></div>
+          <div style="display:flex;gap:8px;margin-top:9px">
+            <span style="font-size:11.5px;color:#7d6a5f">{{ seatCredit.brought }}</span>
+            <span style="margin-left:auto;font-size:11.5px;font-weight:600;color:#8c5239">{{ seatCredit.value }}</span>
+          </div>
+          <div style="font-size:11.5px;line-height:1.55;color:#7d6a5f;margin-top:10px">{{ seatCredit.detail }}</div>
+        </div>
+        <span onClick="{{ startApply }}" style="cursor:pointer;display:block;text-align:center;margin-top:22px;padding:17px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Apply to Lead</span>
+        <span onClick="{{ save }}" style="cursor:pointer;display:block;text-align:center;margin-top:10px;padding:15px;border:1px solid #ddd0c2;color:#5f524a;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">Save retreat</span>
+        <div style="font-size:11.5px;color:#a3948a;text-align:center;margin-top:14px">{{ retreat.deadline }}</div>
+      </div>
+      <div style="border:1px solid #e8ded2;background:#fffdfa">
+        <div style="height:170px"><image-slot id="retreat-basecamp" shape="rect" placeholder="Villa / home base"></image-slot></div>
+        <div style="padding:22px">
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a">Home base</div>
+          <div style="font-family:'EB Garamond',serif;font-size:20px;color:#30231e;margin-top:7px">{{ retreat.basecamp }}</div>
+        </div>
+      </div>
+      <div style="border:1px solid #e8ded2;background:#fffdfa;padding:24px">
+        <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a;margin-bottom:14px">Included</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ included }}" as="i" hint-placeholder-count="5">
+            <div style="font-size:13.5px;line-height:1.5;color:#5f524a">— {{ i.label }}</div>
+          </sc-for>
+        </div>
+        <div style="font-size:12.5px;color:#a3948a;margin-top:16px;line-height:1.6">Not included: {{ retreat.excluded }}</div>
+      </div>
+      <div onClick="{{ navCohort }}" style="cursor:pointer;border:1px solid #d9bda6;background:#f9f0e8;padding:24px" style-hover="background:#f4e6da">
+        <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a">Part of</div>
+        <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e;margin-top:7px">Founding Leader Cohort</div>
+        <div style="font-size:12.5px;color:#8c5239;margin-top:8px;font-weight:600">{{ retreat.stage }} →</div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onLeaders }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1240px;margin:0 auto;padding:52px 40px 100px">
+  <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">Find leaders</h1>
+  <p style="margin:10px 0 0;font-size:15px;color:#7d6a5f">Doctors, practitioners, coaches, speakers and educators who lead retreats.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:30px">
+    <sc-for list="{{ dirFilters }}" as="f" hint-placeholder-count="6">
+      <span onClick="{{ f.pick }}" style="cursor:pointer;padding:11px 18px;border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:12.5px;border-radius:2px">{{ f.label }}</span>
+    </sc-for>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:34px">
+    <sc-for list="{{ directory }}" as="l" hint-placeholder-count="6">
+      <div onClick="{{ l.open }}" style="cursor:pointer;border:1px solid #e8ded2;background:#fffdfa" style-hover="border-color:#c9ab93">
+        <div style="height:250px"><image-slot id="{{ l.slot }}" shape="rect" placeholder="Professional photo"></image-slot></div>
+        <div style="padding:24px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="width:7px;height:7px;border-radius:50%;background:#7d8a6a"></span>
+            <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7d6a5f">{{ l.status }}</span>
+          </div>
+          <div style="font-family:'EB Garamond',serif;font-size:25px;color:#30231e;margin-top:12px">{{ l.name }}</div>
+          <div style="font-size:13px;color:#7d6a5f;margin-top:5px;line-height:1.5">{{ l.title }}</div>
+          <div style="font-size:12.5px;color:#a3948a;margin-top:10px">{{ l.location }} · {{ l.stage }}</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:14px">
+            <span style="padding:5px 11px;border:1px solid {{ l.tierBd }};background:{{ l.tierBg }};font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:{{ l.tierFg }}">{{ l.tierName }}</span>
+            <span style="padding:5px 11px;border:1px solid #e8ded2;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#a3948a">{{ l.videoBadge }}</span>
+          </div>
+          <div style="font-size:12px;color:#7d6a5f;margin-top:10px">{{ l.tierNote }}</div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:14px">
+            <span style="padding:5px 10px;background:#f7f0e7;font-size:11.5px;color:#5f524a">{{ l.t1 }}</span>
+            <span style="padding:5px 10px;background:#f7f0e7;font-size:11.5px;color:#5f524a">{{ l.t2 }}</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onLeader }}" hint-placeholder-val="{{ false }}">
+<div>
+  <div style="position:relative;height:300px;overflow:hidden">
+    <div style="position:absolute;inset:0"><image-slot id="leader-cover" shape="rect" placeholder="Cover image — a retreat they led"></image-slot></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,26,22,.2),rgba(36,26,22,.55));pointer-events:none"></div>
+  </div>
+  <div style="max-width:1240px;margin:0 auto;padding:0 40px 110px">
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:72px;align-items:start">
+      <div>
+        <div style="margin-top:-72px;display:flex;align-items:flex-end;gap:24px">
+          <div style="width:150px;height:150px;border-radius:50%;overflow:hidden;border:4px solid #fefaf4;flex:none;background:#efe6da"><image-slot id="leader-photo" shape="circle" placeholder="Photo"></image-slot></div>
+          <div style="padding-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+              <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 13px;background:#f9f0e8;border:1px solid #d9bda6">
+                <span style="width:7px;height:7px;border-radius:50%;background:#7d8a6a"></span>
+                <span style="font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#8c5239;font-weight:600">{{ leader.status }}</span>
+              </span>
+              <span style="padding:7px 13px;background:#f2f5ee;border:1px solid #cfd8c4;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#5c6b4a;font-weight:600">{{ tier.name }}</span>
+              <span style="padding:7px 13px;background:#fefaf4;border:1px solid #e8ded2;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7d6a5f">{{ tierVerified }}</span>
+              <span style="padding:7px 13px;background:#fefaf4;border:1px solid #e8ded2;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7d6a5f">{{ tierVideo }}</span>
+            </div>
+            <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:50px;line-height:1.05;color:#30231e">{{ leader.name }}</h1>
+          </div>
+        </div>
+        <div style="margin-top:18px;font-size:16px;color:#5f524a">{{ leader.title }}</div>
+        <div style="margin-top:6px;font-size:13.5px;color:#a3948a">{{ leader.location }} · {{ tier.note }}</div>
+
+        <div style="margin-top:26px;border:1px solid #e8ded2;background:#fffdfa;padding:22px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:150px;height:96px;flex:none"><image-slot id="leader-video" shape="rect" placeholder="Video intro"></image-slot></div>
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">Meet them first</div>
+              <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e;margin-top:6px">A two-minute introduction, in their own words</div>
+              <div style="font-size:12.5px;color:#7d6a5f;margin-top:6px">Why they lead, what they teach, and what a room with them feels like.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:44px;padding-top:34px;border-top:1px solid #e8ded2">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a;margin-bottom:18px">Retreat ladder</div>
+          <div style="display:flex;gap:2px">
+            <sc-for list="{{ ladder }}" as="s" hint-placeholder-count="4">
+              <div style="flex:1">
+                <div style="height:4px;background:{{ s.bar }}"></div>
+                <div style="font-size:12.5px;font-weight:500;color:{{ s.fg }};margin-top:10px">{{ s.label }}</div>
+                <div style="font-size:11.5px;color:#a3948a;margin-top:3px">{{ s.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <p style="margin:44px 0 0;font-family:'EB Garamond',serif;font-size:23px;line-height:1.55;color:#30231e;text-wrap:pretty">{{ leader.lede }}</p>
+        <p style="margin:20px 0 0;font-size:15.5px;line-height:1.8;color:#5f524a;text-wrap:pretty">{{ leader.bio }}</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:52px">
+          <div>
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a;margin-bottom:16px">Topics I teach</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <sc-for list="{{ topics }}" as="t" hint-placeholder-count="5">
+                <span style="padding:9px 15px;background:#f7f0e7;border:1px solid #eee4d8;font-size:13px;color:#5f524a">{{ t.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a;margin-bottom:16px">Credentials</div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ credentials }}" as="c" hint-placeholder-count="4">
+                <div style="font-size:14px;line-height:1.5;color:#5f524a">{{ c.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:56px">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a;margin-bottom:18px">Retreat experience</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+            <sc-for list="{{ pastRetreats }}" as="p" hint-placeholder-count="3">
+              <div style="border:1px solid #e8ded2;background:#fffdfa">
+                <div style="height:130px"><image-slot id="{{ p.slot }}" shape="rect" placeholder=""></image-slot></div>
+                <div style="padding:16px">
+                  <div style="font-family:'EB Garamond',serif;font-size:19px;color:#30231e">{{ p.name }}</div>
+                  <div style="font-size:12px;color:#7d6a5f;margin-top:5px">{{ p.role }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:46px;margin-top:52px;padding:32px 0;border-top:1px solid #e8ded2;border-bottom:1px solid #e8ded2">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+            <div>
+              <div style="font-family:'EB Garamond',serif;font-size:38px;color:#30231e;line-height:1">{{ s.value }}</div>
+              <div style="font-size:12px;color:#7d6a5f;margin-top:8px">{{ s.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:34px;display:flex;gap:22px;align-items:center">
+          <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3948a">Elsewhere</div>
+          <div style="display:flex;gap:16px">
+            <span style="font-size:13.5px;color:#8c5239;cursor:pointer">Instagram</span>
+            <span style="font-size:13.5px;color:#8c5239;cursor:pointer">LinkedIn</span>
+            <span style="font-size:13.5px;color:#8c5239;cursor:pointer">Website</span>
+            <span style="font-size:13.5px;color:#8c5239;cursor:pointer">Podcast</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="position:sticky;top:106px;margin-top:44px;display:flex;flex-direction:column;gap:18px">
+        <div style="border:1px solid #e8ded2;background:#fffdfa;padding:26px;display:flex;flex-direction:column;gap:10px">
+          <span onClick="{{ invite }}" style="cursor:pointer;text-align:center;padding:17px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Invite to Retreat</span>
+          <span onClick="{{ request }}" style="cursor:pointer;text-align:center;padding:15px;border:1px solid #8c5239;color:#8c5239;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#f9f0e8">Request This Leader</span>
+          <span onClick="{{ message }}" style="cursor:pointer;text-align:center;padding:14px;border:1px solid #ddd0c2;color:#5f524a;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">Message</span>
+        </div>
+        <sc-if value="{{ leaderIsApplicant }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #d9bda6;background:#f9f0e8;padding:24px">
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a">Applied to</div>
+            <div style="font-family:'EB Garamond',serif;font-size:20px;color:#30231e;margin-top:7px">Costa Rica · longevity slot</div>
+            <div style="display:flex;gap:9px;margin-top:16px">
+              <span onClick="{{ acceptFromProfile }}" style="cursor:pointer;flex:1;text-align:center;padding:13px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:2px">Accept</span>
+              <span onClick="{{ navApps }}" style="cursor:pointer;flex:1;text-align:center;padding:13px;border:1px solid #c9ab93;color:#5f524a;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:2px">All applicants</span>
+            </div>
+          </div>
+        </sc-if>
+        <div style="border:1px solid #e8ded2;background:#fffdfa;padding:26px">
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a;margin-bottom:16px">Availability</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ availability }}" as="a" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;color:#5f524a;flex:1">{{ a.window }}</span>
+                <span style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ a.fg }}">{{ a.state }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="border:1px solid #e8ded2;background:#fffdfa;padding:26px">
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a;margin-bottom:14px">Audience</div>
+          <div style="font-family:'EB Garamond',serif;font-size:30px;color:#30231e">{{ leader.audience }}</div>
+          <div style="font-size:13px;color:#7d6a5f;margin-top:6px;line-height:1.6">{{ leader.audienceNote }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onCreate }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1100px;margin:0 auto;padding:52px 40px 110px">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:42px;color:#30231e">Create a retreat</h1>
+    <div style="margin-left:auto;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a">Step {{ step }} of 5</div>
+  </div>
+  <div style="display:flex;gap:6px;margin-top:26px">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+      <div onClick="{{ s.pick }}" style="cursor:pointer;flex:1">
+        <div style="height:3px;background:{{ s.bar }}"></div>
+        <div style="font-size:12px;color:{{ s.fg }};margin-top:11px;font-weight:500">{{ s.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:48px;display:grid;grid-template-columns:1fr 320px;gap:56px;align-items:start">
+    <div>
+      <sc-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:'EB Garamond',serif;font-weight:400;font-size:32px;color:#30231e">The basics</h2>
+          <p style="margin:0 0 32px;font-size:14.5px;color:#7d6a5f">Where and when. You can change all of this before publishing.</p>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Retreat name</div><input value="{{ f.name }}" onChange="{{ setName }}" placeholder="Costa Rica Wellness &amp; Longevity Retreat" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Location</div><input value="{{ f.location }}" onChange="{{ setLocation }}" placeholder="Jaco &amp; La Fortuna, Costa Rica" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Start</div><input value="{{ f.start }}" onChange="{{ setStart }}" placeholder="Nov 1, 2027" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">End</div><input value="{{ f.end }}" onChange="{{ setEnd }}" placeholder="Nov 9, 2027" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Duration</div><input value="{{ f.duration }}" onChange="{{ setDuration }}" placeholder="9 days" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+            </div>
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Hero image</div><div style="height:220px;border:1px solid #e8ded2"><image-slot id="create-hero" shape="rect" placeholder="Drop the retreat's hero image"></image-slot></div></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:'EB Garamond',serif;font-weight:400;font-size:32px;color:#30231e">Describe it</h2>
+          <p style="margin:0 0 32px;font-size:14.5px;color:#7d6a5f">This is what leaders read before deciding to apply.</p>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Description</div><textarea value="{{ f.desc }}" onChange="{{ setDesc }}" placeholder="An immersive retreat combining longevity, wellness, nature, and transformational experiences." style="width:100%;height:130px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Who is this retreat for?</div><textarea value="{{ f.who }}" onChange="{{ setWho }}" placeholder="Founders, coaches, speakers and healers who are running on empty." style="width:100%;height:100px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">What makes it unique?</div><textarea value="{{ f.unique }}" onChange="{{ setUnique }}" placeholder="A filmed stage talk, a jungle villa, and a private chef most nights." style="width:100%;height:100px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ step3 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:'EB Garamond',serif;font-weight:400;font-size:32px;color:#30231e">Retreat details</h2>
+          <p style="margin:0 0 32px;font-size:14.5px;color:#7d6a5f">Category, size and money.</p>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Retreat category</div>
+              <select value="{{ f.category }}" onChange="{{ setCategory }}" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"><option>Wellness &amp; longevity</option><option>Business &amp; leadership</option><option>Spiritual &amp; contemplative</option><option>Adventure</option><option>Creative</option></select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Expected participants</div><input value="{{ f.participants }}" onChange="{{ setParticipants }}" placeholder="14" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Price per seat</div><input value="{{ f.priceIn }}" onChange="{{ setPriceIn }}" placeholder="$7,997" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+            </div>
+            <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Application requirements</div><textarea value="{{ f.reqs }}" onChange="{{ setReqs }}" placeholder="A session or workshop, a filmed stage talk, and 3 invited guests." style="width:100%;height:110px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ step4 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:'EB Garamond',serif;font-weight:400;font-size:32px;color:#30231e">What types of leaders are you looking for?</h2>
+          <p style="margin:0 0 28px;font-size:14.5px;color:#7d6a5f">Select all that apply, then set how many of each.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ typeChips }}" as="t" hint-placeholder-count="9">
+              <span onClick="{{ t.toggle }}" style="cursor:pointer;padding:12px 20px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-size:13.5px;border-radius:2px">{{ t.label }}</span>
+            </sc-for>
+          </div>
+          <div style="margin-top:40px">
+            <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:14px">How many leaders are you looking for?</div>
+            <sc-if value="{{ noTypes }}" hint-placeholder-val="{{ true }}">
+              <div style="border:1px dashed #ddd0c2;padding:26px;font-size:14px;color:#a3948a">Select at least one type above to set counts.</div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ typeCounts }}" as="t" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:18px;border:1px solid #e8ded2;background:#fffdfa;padding:18px 22px">
+                  <span style="font-size:15px;color:#30231e;flex:1">{{ t.label }}</span>
+                  <span onClick="{{ t.dec }}" style="cursor:pointer;width:34px;height:34px;border:1px solid #ddd0c2;display:flex;align-items:center;justify-content:center;font-size:17px;color:#5f524a;border-radius:2px">−</span>
+                  <span style="font-family:'EB Garamond',serif;font-size:22px;color:#30231e;min-width:22px;text-align:center">{{ t.count }}</span>
+                  <span onClick="{{ t.inc }}" style="cursor:pointer;width:34px;height:34px;border:1px solid #ddd0c2;display:flex;align-items:center;justify-content:center;font-size:17px;color:#5f524a;border-radius:2px">+</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:18px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">{{ totalSlots }} leader slots total</div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ step5 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:'EB Garamond',serif;font-weight:400;font-size:32px;color:#30231e">Preview &amp; publish</h2>
+          <p style="margin:0 0 30px;font-size:14.5px;color:#7d6a5f">This is how your retreat appears to leaders browsing the network.</p>
+          <div style="border:1px solid #e8ded2;background:#fffdfa">
+            <div style="height:250px"><image-slot id="preview-hero" shape="rect" placeholder="Hero image"></image-slot></div>
+            <div style="padding:28px">
+              <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">Seeking {{ totalSlots }} leaders</div>
+              <div style="font-family:'EB Garamond',serif;font-size:32px;line-height:1.15;color:#30231e;margin-top:12px">{{ previewName }}</div>
+              <div style="font-size:13px;color:#7d6a5f;margin-top:9px">{{ previewMeta }}</div>
+              <p style="margin:16px 0 0;font-size:14.5px;line-height:1.7;color:#5f524a">{{ previewDesc }}</p>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid #f0e7db">
+                <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2"><image-slot id="preview-host" shape="circle" placeholder=""></image-slot></div>
+                <div style="font-size:12.5px;color:#7d6a5f">Travis Richardson</div>
+                <div style="margin-left:auto;font-family:'EB Garamond',serif;font-size:21px;color:#30231e">{{ previewPrice }}</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:26px">
+            <sc-for list="{{ previewSlots }}" as="s" hint-placeholder-count="0">
+              <div style="display:flex;align-items:center;gap:14px;border:1px solid #d9bda6;background:#f9f0e8;padding:16px 20px">
+                <span style="font-size:14.5px;color:#30231e;flex:1">{{ s.label }}</span>
+                <span style="font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8c5239">{{ s.count }} open</span>
+              </div>
+            </sc-for>
+          </div>
+          <span onClick="{{ publish }}" style="cursor:pointer;display:inline-block;margin-top:34px;padding:19px 38px;background:#8c5239;color:#fefaf4;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Publish Retreat</span>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;gap:12px;margin-top:44px;padding-top:26px;border-top:1px solid #e8ded2">
+        <span onClick="{{ back }}" style="cursor:pointer;padding:15px 26px;border:1px solid #ddd0c2;color:#5f524a;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">Back</span>
+        <sc-if value="{{ notLastStep }}" hint-placeholder-val="{{ true }}">
+          <span onClick="{{ next }}" style="cursor:pointer;padding:15px 30px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Continue</span>
+        </sc-if>
+        <span onClick="{{ saveDraft }}" style="cursor:pointer;margin-left:auto;align-self:center;font-size:12.5px;color:#a3948a">Save draft</span>
+      </div>
+    </div>
+
+    <div style="position:sticky;top:106px;border:1px solid #e8ded2;background:#fffdfa;padding:26px">
+      <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a3948a;margin-bottom:16px">Live summary</div>
+      <div style="font-family:'EB Garamond',serif;font-size:22px;line-height:1.25;color:#30231e">{{ previewName }}</div>
+      <div style="font-size:12.5px;color:#7d6a5f;margin-top:8px;line-height:1.6">{{ previewMeta }}</div>
+      <div style="margin:20px 0;height:1px;background:#f0e7db"></div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;font-size:13px"><span style="color:#a3948a;flex:1">Category</span><span style="color:#5f524a">{{ f.category }}</span></div>
+        <div style="display:flex;font-size:13px"><span style="color:#a3948a;flex:1">Participants</span><span style="color:#5f524a">{{ previewParticipants }}</span></div>
+        <div style="display:flex;font-size:13px"><span style="color:#a3948a;flex:1">Price</span><span style="color:#5f524a">{{ previewPrice }}</span></div>
+        <div style="display:flex;font-size:13px"><span style="color:#a3948a;flex:1">Leader slots</span><span style="color:#8c5239;font-weight:600">{{ totalSlots }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onApply }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1040px;margin:0 auto;padding:52px 40px 110px">
+  <sc-if value="{{ applyDone }}" hint-placeholder-val="{{ false }}">
+    <div style="border:1px solid #d9bda6;background:#f9f0e8;padding:64px;text-align:center">
+      <div style="font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#8c5239">Application submitted</div>
+      <h1 style="margin:20px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">You've applied to lead in Costa Rica.</h1>
+      <p style="margin:16px auto 0;max-width:520px;font-size:15.5px;line-height:1.7;color:#5f524a">Travis reviews every application personally. You'll hear back within a week, and you can track it from your dashboard.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:34px">
+        <span onClick="{{ navDash }}" style="cursor:pointer;padding:17px 30px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px">Track application</span>
+        <span onClick="{{ navExplore }}" style="cursor:pointer;padding:17px 30px;border:1px solid #c9ab93;color:#5f524a;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px">Keep exploring</span>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ applyOpen }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <span onClick="{{ backToRetreat }}" style="cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#a3948a">← Back to retreat</span>
+      <h1 style="margin:22px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">Apply to lead</h1>
+      <div style="display:flex;gap:20px;align-items:center;margin-top:30px;border:1px solid #e8ded2;background:#fffdfa;padding:20px">
+        <div style="width:96px;height:72px;flex:none"><image-slot id="apply-thumb" shape="rect" placeholder=""></image-slot></div>
+        <div>
+          <div style="font-family:'EB Garamond',serif;font-size:23px;color:#30231e">{{ retreat.name }}</div>
+          <div style="font-size:13px;color:#7d6a5f;margin-top:6px">{{ retreat.location }} · {{ retreat.dates }} · {{ retreat.duration }} · hosted by {{ retreat.host }}</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a">Open slots</div>
+          <div style="font-family:'EB Garamond',serif;font-size:24px;color:#8c5239;margin-top:4px">{{ retreat.openSlots }}</div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px">
+        <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:12px">Which role are you applying for?</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ roleOptions }}" as="r" hint-placeholder-count="3">
+            <div onClick="{{ r.pick }}" style="cursor:pointer;display:flex;align-items:center;gap:14px;border:1px solid {{ r.bd }};background:{{ r.bg }};padding:18px 20px">
+              <span style="width:16px;height:16px;border-radius:50%;border:1px solid {{ r.dot }};background:{{ r.dotFill }};flex:none"></span>
+              <span style="font-size:15px;color:#30231e;flex:1">{{ r.label }}</span>
+              <span style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#a3948a">{{ r.state }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:26px;margin-top:38px">
+        <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Why are you interested?</div><textarea value="{{ a.why }}" onChange="{{ setWhy }}" placeholder="What draws you to this retreat, this group, and this place." style="width:100%;height:120px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+        <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">What would you teach?</div><textarea value="{{ a.teach }}" onChange="{{ setTeach }}" placeholder="The session, workshop or stage talk you'd bring — and what participants leave with." style="width:100%;height:120px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+        <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Relevant experience</div><textarea value="{{ a.exp }}" onChange="{{ setExp }}" placeholder="Retreats, groups, stages — and the guests you could bring." style="width:100%;height:110px;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;line-height:1.6;border-radius:2px;outline:none;resize:vertical"></textarea></div>
+        <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Links</div><input value="{{ a.links }}" onChange="{{ setLinks }}" placeholder="Website, Instagram, a past talk" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none"></div>
+        <div>
+          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7d6a5f;margin-bottom:9px">Video introduction <span style="text-transform:none;letter-spacing:0;color:#a3948a">— optional, but organizers watch them</span></div>
+          <div style="border:1px dashed #ddd0c2;background:#fffdfa;padding:30px;text-align:center;font-size:14px;color:#a3948a">Drop a video file, or paste a link</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:18px;margin-top:38px;padding-top:26px;border-top:1px solid #e8ded2">
+        <span onClick="{{ submitApply }}" style="cursor:pointer;padding:19px 36px;background:#8c5239;color:#fefaf4;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Submit Application</span>
+        <span style="font-size:13px;color:#a3948a">Your profile, credentials and past retreats attach automatically.</span>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ onDash }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1240px;margin:0 auto;padding:52px 40px 110px">
+  <div style="display:flex;align-items:baseline;gap:20px">
+    <div>
+      <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">My retreats</h1>
+      <p style="margin:10px 0 0;font-size:15px;color:#7d6a5f">{{ dashGreeting }}</p>
+    </div>
+    <span onClick="{{ navCreate }}" style="margin-left:auto;cursor:pointer;padding:16px 26px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">New Retreat</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:18px;margin-top:38px">
+    <sc-for list="{{ dashStats }}" as="s" hint-placeholder-count="4">
+      <div style="border:1px solid {{ s.bd }};background:{{ s.bg }};padding:26px">
+        <div style="font-family:'EB Garamond',serif;font-size:40px;line-height:1;color:{{ s.fg }}">{{ s.value }}</div>
+        <div style="font-size:12.5px;color:#7d6a5f;margin-top:10px">{{ s.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:18px;margin-top:34px">
+    <sc-for list="{{ myRetreats }}" as="r" hint-placeholder-count="3">
+      <div style="border:1px solid #e8ded2;background:#fffdfa;display:flex;gap:26px;padding:24px">
+        <div style="width:190px;height:140px;flex:none"><image-slot id="{{ r.slot }}" shape="rect" placeholder=""></image-slot></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-family:'EB Garamond',serif;font-size:27px;color:#30231e">{{ r.name }}</div>
+            <span style="padding:5px 11px;background:{{ r.statusBg }};color:{{ r.statusFg }};font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">{{ r.status }}</span>
+          </div>
+          <div style="font-size:13px;color:#7d6a5f">{{ r.meta }}</div>
+          <div style="display:flex;gap:40px;margin-top:auto">
+            <div>
+              <div style="font-size:13.5px;font-weight:600;color:#30231e">{{ r.leaders }}</div>
+              <div style="height:4px;width:120px;background:#f0e7db;margin-top:8px"><div style="height:4px;width:{{ r.pct }};background:#8c5239"></div></div>
+            </div>
+            <div><div style="font-size:13.5px;font-weight:600;color:#30231e">{{ r.apps }}</div><div style="font-size:12px;color:#8c5239;margin-top:6px">{{ r.appsNote }}</div></div>
+            <div><div style="font-size:13.5px;font-weight:600;color:#30231e">{{ r.participants }}</div><div style="font-size:12px;color:#a3948a;margin-top:6px">{{ r.participantsNote }}</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;width:180px;flex:none">
+          <span onClick="{{ r.review }}" style="cursor:pointer;text-align:center;padding:15px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">{{ r.cta }}</span>
+          <span onClick="{{ r.manage }}" style="cursor:pointer;text-align:center;padding:14px;border:1px solid #ddd0c2;color:#5f524a;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">Manage Retreat</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:46px;border:1px dashed #ddd0c2;padding:26px;display:flex;align-items:center;gap:18px">
+    <div>
+      <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e">Need a venue, chef or photographer?</div>
+      <div style="font-size:13.5px;color:#a3948a;margin-top:6px">Service partners join the network next. Media &amp; promotion is available now.</div>
+    </div>
+    <span onClick="{{ soon }}" style="margin-left:auto;cursor:pointer;padding:14px 22px;border:1px solid #ddd0c2;color:#a3948a;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px">Coming soon</span>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onApps }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1240px;margin:0 auto;padding:52px 40px 110px">
+  <span onClick="{{ navDash }}" style="cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#a3948a">← Dashboard</span>
+  <div style="display:flex;align-items:baseline;gap:20px;margin-top:20px">
+    <div>
+      <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:44px;color:#30231e">Applications</h1>
+      <p style="margin:10px 0 0;font-size:15px;color:#7d6a5f">Costa Rica Wellness &amp; Longevity · Nov 1–9, 2027</p>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-family:'EB Garamond',serif;font-size:30px;color:#30231e">{{ filledLabel }}</div>
+      <div style="font-size:12px;color:#7d6a5f;margin-top:4px">leader slots filled</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:32px;padding-bottom:20px;border-bottom:1px solid #e8ded2;align-items:center">
+    <sc-for list="{{ slotTabs }}" as="t" hint-placeholder-count="3">
+      <span onClick="{{ t.pick }}" style="cursor:pointer;padding:11px 18px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-size:12.5px;font-weight:500;border-radius:2px">{{ t.label }}</span>
+    </sc-for>
+    <span style="margin-left:auto;font-size:12.5px;color:#a3948a">Sorted by newest</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:18px;margin-top:28px">
+    <sc-for list="{{ applicants }}" as="p" hint-placeholder-count="4">
+      <div style="border:1px solid {{ p.bd }};background:{{ p.bg }};padding:26px;display:flex;gap:26px">
+        <div style="width:104px;flex:none;display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="width:96px;height:96px;border-radius:50%;overflow:hidden;border:1px solid #e8ded2"><image-slot id="{{ p.slot }}" shape="circle" placeholder=""></image-slot></div>
+          <div style="font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8c5239;text-align:center">{{ p.stage }}</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:baseline;gap:12px">
+            <div style="font-family:'EB Garamond',serif;font-size:27px;color:#30231e">{{ p.name }}</div>
+            <span style="font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:{{ p.tagFg }}">{{ p.tag }}</span>
+          </div>
+          <div style="font-size:13.5px;color:#7d6a5f">{{ p.title }} · {{ p.location }}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span style="padding:6px 12px;border:1px solid {{ p.tierBd }};background:{{ p.tierBg }};font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:{{ p.tierFg }}">{{ p.tierName }}</span>
+            <span style="font-size:12px;color:#7d6a5f">{{ p.tierNote }}</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="padding:6px 12px;background:#f7f0e7;border:1px solid #eee4d8;font-size:12px;color:#5f524a">{{ p.c1 }}</span>
+            <span style="padding:6px 12px;background:#f7f0e7;border:1px solid #eee4d8;font-size:12px;color:#5f524a">{{ p.c2 }}</span>
+            <span style="padding:6px 12px;background:#f7f0e7;border:1px solid #eee4d8;font-size:12px;color:#5f524a">{{ p.c3 }}</span>
+          </div>
+          <div style="border-left:2px solid #d9bda6;padding-left:16px;margin-top:4px">
+            <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a;margin-bottom:7px">Would teach</div>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#5f524a;max-width:560px">{{ p.pitch }}</p>
+          </div>
+          <div style="display:flex;gap:22px;font-size:12.5px;color:#7d6a5f;margin-top:2px">
+            <span>{{ p.experience }}</span><span>{{ p.guests }}</span><span style="color:#8c5239;cursor:pointer">{{ p.video }}</span>
+          </div>
+        </div>
+        <div style="width:150px;flex:none;display:flex;flex-direction:column;gap:9px;justify-content:center">
+          <span onClick="{{ p.accept }}" style="cursor:pointer;text-align:center;padding:14px;background:#8c5239;color:#fefaf4;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Accept</span>
+          <span onClick="{{ p.view }}" style="cursor:pointer;text-align:center;padding:13px;border:1px solid #c9ab93;color:#5f524a;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px" style-hover="border-color:#8c5239">View Profile</span>
+          <span onClick="{{ p.message }}" style="cursor:pointer;text-align:center;padding:13px;border:1px solid #e2d7c9;color:#7d6a5f;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;border-radius:2px">Message</span>
+          <span onClick="{{ p.decline }}" style="cursor:pointer;text-align:center;padding:6px;font-size:12px;color:#a3948a">Decline</span>
+          <div style="text-align:center;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">{{ p.decision }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onLogin }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:calc(100vh - 74px);display:flex;align-items:center;justify-content:center;padding:60px 40px">
+  <div style="width:100%;max-width:460px">
+    <div style="text-align:center"><img src="brand/rln-mark.png" alt="" style="height:64px;width:auto;display:inline-block"></div>
+    <h1 style="margin:26px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:38px;color:#30231e;text-align:center">Join the network</h1>
+    <p style="margin:12px 0 0;font-size:14.5px;color:#7d6a5f;text-align:center">{{ loginNote }}</p>
+    <div style="display:flex;gap:12px;margin-top:32px">
+      <div onClick="{{ pickLeader }}" style="cursor:pointer;flex:1;border:1px solid {{ leaderRoleBd }};background:{{ leaderRoleBg }};padding:22px">
+        <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e">I lead</div>
+        <div style="font-size:12.5px;color:#7d6a5f;margin-top:6px;line-height:1.5">Teach, speak, facilitate</div>
+      </div>
+      <div onClick="{{ pickOrganizer }}" style="cursor:pointer;flex:1;border:1px solid {{ orgRoleBd }};background:{{ orgRoleBg }};padding:22px">
+        <div style="font-family:'EB Garamond',serif;font-size:21px;color:#30231e">I organize</div>
+        <div style="font-size:12.5px;color:#7d6a5f;margin-top:6px;line-height:1.5">Create and host retreats</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:22px">
+      <input placeholder="Email" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none">
+      <input type="password" placeholder="Password" style="width:100%;padding:15px 16px;border:1px solid #e8ded2;background:#fffdfa;font-size:15px;border-radius:2px;outline:none">
+    </div>
+    <span onClick="{{ doLogin }}" style="cursor:pointer;display:block;text-align:center;margin-top:18px;padding:18px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Continue as {{ roleLabel }}</span>
+    <div style="text-align:center;font-size:13px;color:#a3948a;margin-top:16px">Already a member? <span onClick="{{ doLogin }}" style="cursor:pointer;color:#8c5239">Log in</span></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onRoles }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1240px;margin:0 auto;padding:60px 40px 110px">
+  <div style="font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#8c5239">How it works</div>
+  <h1 style="margin:16px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:50px;line-height:1.08;color:#30231e;max-width:760px;text-wrap:pretty">A retreat is a production. This is who makes it happen.</h1>
+  <p style="margin:20px 0 0;font-family:'EB Garamond',serif;font-size:22px;line-height:1.55;color:#5f524a;max-width:680px;text-wrap:pretty">One host, a team of contributors, and eventually participants. Everyone gets the same trust primitives — verification, tier, video — and proves themselves differently depending on what they supply.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:52px">
+    <sc-for list="{{ roleModel }}" as="r" hint-placeholder-count="4">
+      <div style="border:1px solid #e8ded2;background:#fffdfa;display:flex;flex-direction:column">
+        <div style="height:190px"><image-slot id="{{ r.slot }}" shape="rect" placeholder=""></image-slot></div>
+        <div style="padding:28px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div>
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">{{ r.tag }}</div>
+            <div style="font-family:'EB Garamond',serif;font-size:32px;color:#30231e;margin-top:8px">{{ r.name }}</div>
+          </div>
+          <p style="margin:0;font-size:14.5px;line-height:1.7;color:#5f524a;text-wrap:pretty">{{ r.desc }}</p>
+          <div>
+            <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a;margin-bottom:10px">Categories</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <sc-for list="{{ r.cats }}" as="c" hint-placeholder-count="6">
+                <span style="padding:6px 12px;background:#f7f0e7;border:1px solid #eee4d8;font-size:12px;color:#5f524a">{{ c.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="margin-top:auto;padding-top:16px;border-top:1px solid #f0e7db">
+            <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3948a;margin-bottom:7px">How they prove it</div>
+            <div style="font-size:13.5px;line-height:1.6;color:#5f524a">{{ r.proof }}</div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <h2 style="margin:76px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:38px;color:#30231e">The badge system</h2>
+  <p style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#7d6a5f;max-width:620px">Every badge on the platform means one specific, checkable thing. Nothing is a vibe and nothing is self-reported.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:34px">
+    <sc-for list="{{ badgeLegend }}" as="g" hint-placeholder-count="3">
+      <div style="border:1px solid #e8ded2;background:#fffdfa;padding:26px">
+        <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8c5239;margin-bottom:20px">{{ g.group }}</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="5">
+            <div>
+              <span style="display:inline-block;padding:5px 11px;border:1px solid #d9bda6;background:#f9f0e8;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8c5239">{{ i.label }}</span>
+              <div style="font-size:13px;line-height:1.6;color:#5f524a;margin-top:8px">{{ i.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:60px;border:1px solid #d9bda6;background:#f9f0e8;padding:40px;display:flex;align-items:center;gap:36px">
+    <div>
+      <div style="font-family:'EB Garamond',serif;font-size:30px;color:#30231e">Seat Credit</div>
+      <p style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#5f524a;max-width:620px">Bring guests, earn your seat. One guest covers a third, two cover two-thirds, three cover it entirely. Hosts can adjust the thresholds, but this is the network standard — and it is why trips here fill.</p>
+    </div>
+    <span onClick="{{ navExplore }}" style="margin-left:auto;cursor:pointer;flex:none;padding:18px 30px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px" style-hover="background:#30231e">Find a retreat</span>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ onCohort }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1040px;margin:0 auto;padding:60px 40px 110px">
+  <span onClick="{{ navLanding }}" style="cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#a3948a">← Home</span>
+  <div style="font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#8c5239;margin-top:26px">Featured program · 4 seats</div>
+  <h1 style="margin:16px 0 0;font-family:'EB Garamond',serif;font-weight:400;font-size:52px;line-height:1.08;color:#30231e">The Founding Leader Cohort</h1>
+  <p style="margin:20px 0 0;font-family:'EB Garamond',serif;font-size:24px;line-height:1.55;color:#5f524a;max-width:700px;text-wrap:pretty">Experience it. Lead it. Create it. Own it. A real-world apprenticeship in transformational retreats — and the reason this network exists.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-top:44px">
+    <sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+      <div style="display:flex;gap:26px;border:1px solid #e8ded2;background:#fffdfa;padding:26px">
+        <div style="width:150px;height:110px;flex:none"><image-slot id="{{ s.slot }}" shape="rect" placeholder=""></image-slot></div>
+        <div style="flex:1">
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8c5239">{{ s.kicker }}</div>
+          <div style="font-family:'EB Garamond',serif;font-size:28px;color:#30231e;margin-top:9px">{{ s.name }}</div>
+          <p style="margin:9px 0 0;font-size:14.5px;line-height:1.7;color:#5f524a;max-width:560px">{{ s.desc }}</p>
+        </div>
+        <div style="width:140px;flex:none;text-align:right">
+          <div style="font-family:'EB Garamond',serif;font-size:22px;color:#30231e">{{ s.cost }}</div>
+          <div style="font-size:12px;color:#a3948a;margin-top:5px">{{ s.role }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="margin-top:40px;display:flex;gap:14px;align-items:center">
+    <a href="https://www.retreatleadersnetwork.com/" target="_blank" style="padding:18px 32px;background:#8c5239;color:#fefaf4;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px">Apply on retreatleadersnetwork.com</a>
+    <span onClick="{{ openCostaRica }}" style="cursor:pointer;padding:18px 32px;border:1px solid #c9ab93;color:#5f524a;font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:2px">View the Costa Rica retreat</span>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const A = '#8c5239', INK = '#30231e', MUTE = '#a3948a';
+
+const RETREATS = {
+  cr: {
+    id:'cr', slot:'card-cr', hostSlot:'host-cr',
+    kicker:'Costa Rica · November 1–9, 2027',
+    name:'Costa Rica Wellness & Longevity Retreat',
+    short:'Costa Rica Wellness & Longevity',
+    location:'Jaco & La Fortuna, Costa Rica', dates:'Nov 1–9, 2027', duration:'9 days',
+    groupSize:'Small group · 14 seats', category:'Wellness', country:'Costa Rica', year:'2027',
+    host:'Travis Richardson', hostId:'travis', price:'$7,997', priceBand:'mid', durBand:'long',
+    priceNote:'Founding circle · participant seat',
+    leaderTerms:'Leaders: seat covered when you bring 3 guests',
+    deadline:'Leader applications close March 2027',
+    blurb:'An immersive retreat combining longevity, wellness, nature, and transformational experiences.',
+    lede:'Nine days in Costa Rica to return to yourself.',
+    body:'A jungle villa in Jaco, hot springs and volcanos in La Fortuna, and a small group of entrepreneurs, coaches and leaders who came for the same reason. Adventure, rest, real conversation — a filmed talk from the stage, and time away from the phone.',
+    philosophy:'Every day has a shape, and plenty of space inside it. Nothing is mandatory and there is always a slower track. The work is not to add more — it is to make room, then decide from there.',
+    basecamp:'Jungle villa in Jaco + two nights in La Fortuna',
+    excluded:'flights, travel insurance, optional spa treatments, breakfast',
+    stage:'Stage 2 of the Founding Leader Cohort',
+    seekingNote:'Two of four leader slots are still open. Leaders run a session, deliver a filmed stage talk, and invite a small number of guests.',
+    wants:'A session or workshop of your own, a filmed stage talk, and three invited guests — which covers your seat entirely. Prior retreat experience helps but is not required; what matters is that you can hold a room.',
+    openSlots:'2 of 4',
+    badge:'Seeking 2 Leaders'
+  },
+  ash: {
+    id:'ash', slot:'card-ash', hostSlot:'host-ash',
+    kicker:'Asheville, North Carolina · April 3–11, 2028',
+    name:'Asheville Co-Created Retreat',
+    short:'Asheville Co-Created Retreat',
+    location:'Asheville, North Carolina', dates:'Apr 3–11, 2028', duration:'9 days',
+    groupSize:'Small group · 16 seats', category:'Personal development', country:'United States', year:'2028',
+    host:'Travis Richardson', hostId:'travis', price:'By invitation', priceBand:'inv', durBand:'long',
+    priceNote:'Co-created with profit share',
+    leaderTerms:'Co-creators share the build and the profit',
+    deadline:'Cohort selection in progress',
+    blurb:'The founding cohort designs and runs a real retreat in the Blue Ridge — concept to delivery, with profit share.',
+    lede:'A retreat built by the people leading it.',
+    body:'Positioning, program arc, budget, pricing, break-even, marketing and enrollment — decided by the cohort, with the profit share agreed in writing before the build begins.',
+    philosophy:'Skin in the game changes how you design. When the pricing and the risk are actually yours, every decision about the experience gets sharper.',
+    basecamp:'Blue Ridge mountain house, Asheville',
+    excluded:'flights, travel insurance, personal purchases',
+    stage:'Stage 3 of the Founding Leader Cohort',
+    seekingNote:'All four co-creator seats open to the founding cohort. First rights to speak at Taste of Wellness Asheville included.',
+    wants:'Co-creators who want to learn the business, not just the stage — budget, vendors, enrollment and on-site decisions.',
+    openSlots:'4 of 4',
+    badge:'Seeking 4 Co-Creators'
+  },
+  jp: {
+    id:'jp', slot:'card-jp', hostSlot:'host-jp',
+    kicker:'Japan · April 5–13, 2027',
+    name:'Live Your List Japan',
+    short:'Live Your List Japan',
+    location:'Japan', dates:'Apr 5–13, 2027', duration:'9 days',
+    groupSize:'Small group', category:'Personal development', country:'Japan', year:'2027',
+    host:'Robert Evans', hostId:'robert', price:'$12k–15k', priceBand:'high', durBand:'long',
+    priceNote:'Retreat cost · flights separate',
+    leaderTerms:'Leader roster is full for 2027',
+    deadline:'Leader slots filled',
+    blurb:'Cherry blossoms, temples and a transformational container built over twenty years. Stage one of the cohort year.',
+    lede:'Watch how a great retreat is actually built.',
+    body:'You arrive as a guest. Robert Evans hosts and Travis is one of four leaders — so you can study how transformation gets structured across a whole trip.',
+    philosophy:'You stop asking whether you enjoyed it and start asking why it worked — and how you would build it for your own people.',
+    basecamp:'Ryokan and city stays across Japan',
+    excluded:'flights, insurance, personal purchases',
+    stage:'Stage 1 of the Founding Leader Cohort',
+    seekingNote:'The 2027 leader roster is complete. Future Japan editions open to network leaders first.',
+    wants:'Nothing right now — join the waitlist for 2028.',
+    openSlots:'0 of 4',
+    badge:'Leaders confirmed'
+  },
+  peru: {
+    id:'peru', slot:'card-peru', hostSlot:'host-peru',
+    kicker:'Sacred Valley, Peru · February 12–19, 2028',
+    name:'Sacred Valley Longevity Intensive',
+    short:'Sacred Valley Longevity Intensive',
+    location:'Sacred Valley, Peru', dates:'Feb 12–19, 2028', duration:'7 days',
+    groupSize:'Small group · 12 seats', category:'Longevity', country:'Peru', year:'2028',
+    host:'Dr. Maya Okafor', hostId:'maya', price:'$6,400', priceBand:'mid', durBand:'long',
+    priceNote:'Per participant seat',
+    leaderTerms:'Leaders: seat covered plus honorarium',
+    deadline:'Applications close June 2027',
+    blurb:'Altitude, breathwork and metabolic testing in the Andes, for people who measure what they change.',
+    lede:'Longevity practice at 9,000 feet.',
+    body:'A clinical-grade programme wrapped in a week of altitude, movement and ceremony, with baseline and exit testing for every participant.',
+    philosophy:'Measure, intervene, measure again — and do it somewhere beautiful enough that people actually keep going.',
+    basecamp:'Restored hacienda outside Urubamba',
+    excluded:'flights, insurance, spa treatments',
+    stage:'Network retreat',
+    seekingNote:'Two slots open — a breathwork or movement lead, and a nutrition specialist.',
+    wants:'Practitioners who can run daily practice and hold a teaching session mid-week.',
+    openSlots:'2 of 4',
+    badge:'Seeking 2 Leaders'
+  },
+  lis: {
+    id:'lis', slot:'card-lis', hostSlot:'host-lis',
+    kicker:'Sintra, Portugal · September 18–23, 2027',
+    name:'Lisbon Founders Reset',
+    short:'Lisbon Founders Reset',
+    location:'Sintra, Portugal', dates:'Sep 18–23, 2027', duration:'5 days',
+    groupSize:'Small group · 10 seats', category:'Business', country:'Portugal', year:'2027',
+    host:'Priya Raman', hostId:'priya', price:'$4,850', priceBand:'low', durBand:'short',
+    priceNote:'Per participant seat',
+    leaderTerms:'Leaders: seat covered with 2 guests',
+    deadline:'Applications close April 2027',
+    blurb:'Five days for founders between chapters — strategy in the mornings, Atlantic coast in the afternoons.',
+    lede:'A short reset for people mid-decision.',
+    body:'Ten founders, a palace-adjacent quinta, and a structure built around one question each person is actually stuck on.',
+    philosophy:'Short enough that busy people say yes, long enough that something shifts.',
+    basecamp:'Quinta in the Sintra hills',
+    excluded:'flights, insurance, personal purchases',
+    stage:'Network retreat',
+    seekingNote:'One slot open for a leadership or personal-development lead.',
+    wants:'Someone who can run a hard, honest strategy session without a slide deck.',
+    openSlots:'1 of 3',
+    badge:'Seeking 1 Leader'
+  },
+  kyo: {
+    id:'kyo', slot:'card-kyo', hostSlot:'host-kyo',
+    kicker:'Kyoto, Japan · October 8–15, 2028',
+    name:'Kyoto Autumn Integration',
+    short:'Kyoto Autumn Integration',
+    location:'Kyoto, Japan', dates:'Oct 8–15, 2028', duration:'8 days',
+    groupSize:'Small group · 12 seats', category:'Wellness', country:'Japan', year:'2028',
+    host:'Noor Haddad', hostId:'noor', price:'$9,200', priceBand:'mid', durBand:'long',
+    priceNote:'Per participant seat',
+    leaderTerms:'Leaders: seat covered with 3 guests',
+    deadline:'Applications open now',
+    blurb:'Momiji season, temple mornings and a slow programme for people who have been going too fast for too long.',
+    lede:'Autumn in Kyoto, at walking pace.',
+    body:'Temple mornings, tea, forest bathing in Arashiyama, and evening circles in a machiya townhouse.',
+    philosophy:'The season does most of the work. The programme just gets out of the way.',
+    basecamp:'Machiya townhouse, central Kyoto',
+    excluded:'flights, insurance, personal purchases',
+    stage:'Network retreat',
+    seekingNote:'Three slots open across wellness, movement and creative practice.',
+    wants:'Practitioners comfortable working quietly, in small groups, without a stage.',
+    openSlots:'3 of 4',
+    badge:'Seeking 3 Leaders'
+  }
+};
+
+const LEADERS = {
+  travis: {
+    id:'travis', slot:'dir-travis', name:'Travis Richardson',
+    title:'Retreat host · International keynote speaker · Founder, Be Well Asheville',
+    location:'Asheville, North Carolina', stage:'Creator', status:'Available for retreats',
+    t1:'Retreat design', t2:'Stage speaking',
+    lede:'I have spent the last decade chasing one question: what actually makes people come alive?',
+    bio:'The answer, for me, turned out to be rooms full of people far from home. Costa Rica three times. Alaska. Ecuador. Liberia. Five of those trips I led or hosted myself, and I have keynoted stages internationally in between. Hosting retreats is not a hobby you graduate into — it is a craft you get handed.',
+    audience:'18,400', audienceNote:'Newsletter, podcast and Instagram across the Be Well Asheville audience.',
+    ladderIndex:3, applicant:false,
+    topics:['Retreat design & operations','Stage speaking','Wellness business','Community building','Enrollment & filling rooms'],
+    credentials:['Founder, Be Well Asheville','5 retreats led or hosted','International keynote speaker','Host, Costa Rica 2027 & Asheville 2028'],
+    past:[{name:'Costa Rica 2018',role:'Roundtable lead & stage talk',slot:'past-t1'},{name:'Alaska 2014',role:'Participant',slot:'past-t2'},{name:'Liberia 2014',role:'Contribution lead',slot:'past-t3'}],
+    stats:[{value:'5',label:'Retreats led'},{value:'8',label:'Countries'},{value:'3×',label:'Costa Rica'},{value:'12',label:'Stage talks'}],
+    availability:[{window:'Nov 2027',state:'Hosting'},{window:'Apr 2028',state:'Hosting'},{window:'2028 H2',state:'Open'}]
+  },
+  robert: {
+    id:'robert', slot:'dir-robert', name:'Robert Evans',
+    title:'Founder, Live Your List · 20+ year transformational leader',
+    location:'Ashland, Oregon', stage:'Creator', status:'Selectively available',
+    t1:'Transformational design', t2:'Manifesting',
+    lede:'Ten-plus trips worldwide and 180 participants through transformative experiences.',
+    bio:'Founder of Live Your List and a twenty-year leader in helping people transform their lives and businesses. Trips across Liberia, New Zealand, Ecuador, Costa Rica, Alaska, San Diego and Ashland — built on inspiring people to live their bucket list now, not later.',
+    audience:'46,000', audienceNote:'Live Your List community, courses and trip alumni.',
+    ladderIndex:3, applicant:false,
+    topics:['Transformational retreat design','The Habit of Attraction','Online marketing','Lifestyle business'],
+    credentials:['Founder, Live Your List','Founder, the UnGRIND Journey','10+ international trips led','180 participants hosted'],
+    past:[{name:'New Zealand',role:'Host',slot:'past-r1'},{name:'Ecuador',role:'Host',slot:'past-r2'},{name:'Japan 2027',role:'Host',slot:'past-r3'}],
+    stats:[{value:'10+',label:'Trips led'},{value:'180',label:'Participants'},{value:'20yr',label:'Experience'},{value:'7',label:'Countries'}],
+    availability:[{window:'Apr 2027',state:'Hosting'},{window:'2028',state:'Open'},{window:'2029',state:'Open'}]
+  },
+  maya: {
+    id:'maya', slot:'dir-maya', name:'Dr. Maya Okafor',
+    title:'Functional medicine physician · Longevity clinician',
+    location:'Austin, Texas', stage:'Co-creator', status:'Available for retreats',
+    t1:'Longevity', t2:'Metabolic health',
+    lede:'I want people to leave with numbers that moved, not just a feeling that something did.',
+    bio:'Board-certified in internal medicine and certified through the Institute for Functional Medicine. I run a longevity practice in Austin and have led the clinical side of three retreats — baseline testing, daily protocol, and an exit review each participant takes home.',
+    audience:'31,200', audienceNote:'Clinical newsletter and a longevity podcast with a highly engaged list.',
+    ladderIndex:2, applicant:true,
+    topics:['Longevity protocols','Metabolic health','Sleep & recovery','Hormone health','Biomarker testing'],
+    credentials:['MD, board-certified internal medicine','IFMCP — Institute for Functional Medicine','Founder, Meridian Longevity, Austin','3 retreats as clinical lead'],
+    past:[{name:'Sedona Longevity 2025',role:'Clinical lead',slot:'past-m1'},{name:'Tulum Reset 2024',role:'Workshop lead',slot:'past-m2'},{name:'Sacred Valley 2028',role:'Host',slot:'past-m3'}],
+    stats:[{value:'3',label:'Retreats led'},{value:'4',label:'Guests she brings'},{value:'12yr',label:'In practice'},{value:'31k',label:'Audience'}],
+    availability:[{window:'Nov 2027',state:'Open'},{window:'Feb 2028',state:'Hosting'},{window:'2028 H2',state:'Open'}]
+  },
+  james: {
+    id:'james', slot:'dir-james', name:'James Whitfield',
+    title:'Longevity coach · Breathwork facilitator',
+    location:'Denver, Colorado', stage:'Leader', status:'Available for retreats',
+    t1:'Breathwork', t2:'Cold exposure',
+    lede:'Practice beats information. I run the daily rhythm that makes a retreat land in the body.',
+    bio:'Ten years of morning practice with groups — breath, cold, movement — across gyms, corporate offsites and four retreats. I take the 6am slot nobody else wants and make it the thing people talk about at dinner.',
+    audience:'9,800', audienceNote:'Instagram and a small paid practice community.',
+    ladderIndex:1, applicant:true,
+    topics:['Breathwork','Cold exposure','Morning practice design','Nervous system regulation'],
+    credentials:['Oxygen Advantage instructor','XPT coach','4 retreats as practice lead','Former collegiate athlete'],
+    past:[{name:'Baja Reset 2026',role:'Practice lead',slot:'past-j1'},{name:'Aspen Offsite 2025',role:'Facilitator',slot:'past-j2'},{name:'Costa Rica 2024',role:'Practice lead',slot:'past-j3'}],
+    stats:[{value:'4',label:'Retreats led'},{value:'2',label:'Guests he brings'},{value:'10yr',label:'Coaching'},{value:'9.8k',label:'Audience'}],
+    availability:[{window:'Nov 2027',state:'Open'},{window:'Apr 2028',state:'Open'},{window:'2029',state:'Open'}]
+  },
+  priya: {
+    id:'priya', slot:'dir-priya', name:'Priya Raman',
+    title:'Executive coach · Author, The Long Middle',
+    location:'Lisbon, Portugal', stage:'Leader', status:'Available for retreats',
+    t1:'Leadership', t2:'Founder strategy',
+    lede:'Most founders do not need a framework. They need one honest hour about the thing they are avoiding.',
+    bio:'Fifteen years coaching founders and executives through the messy middle of a company. I host the Lisbon Founders Reset and lead strategy sessions on other people\u2019s retreats — usually the one that makes someone change their plan.',
+    audience:'22,400', audienceNote:'Substack for founders, plus a private coaching cohort.',
+    ladderIndex:1, applicant:true,
+    topics:['Leadership development','Founder strategy','Difficult conversations','Decision-making'],
+    credentials:['Author, The Long Middle','ICF Master Certified Coach','Host, Lisbon Founders Reset','15 years executive coaching'],
+    past:[{name:'Lisbon Reset 2027',role:'Host',slot:'past-p1'},{name:'Bali Founders 2025',role:'Strategy lead',slot:'past-p2'},{name:'Kyoto 2024',role:'Workshop lead',slot:'past-p3'}],
+    stats:[{value:'6',label:'Retreats led'},{value:'3',label:'Guests she brings'},{value:'15yr',label:'Coaching'},{value:'22k',label:'Audience'}],
+    availability:[{window:'Sep 2027',state:'Hosting'},{window:'Nov 2027',state:'Open'},{window:'2028',state:'Open'}]
+  },
+  noor: {
+    id:'noor', slot:'dir-noor', name:'Noor Haddad',
+    title:'Somatic therapist · Integration specialist',
+    location:'Kyoto, Japan', stage:'Participant', status:'Available for retreats',
+    t1:'Somatics', t2:'Integration',
+    lede:'The retreat is not the work. The two weeks after it are.',
+    bio:'Somatic therapy practice in Kyoto, and integration design for retreats that want their participants to still be changed in March. New to leading — one retreat as a participant, one as a session lead.',
+    audience:'4,100', audienceNote:'Small, local, and unusually loyal.',
+    ladderIndex:0, applicant:false,
+    topics:['Somatic practice','Integration design','Grief & transition','Slow programming'],
+    credentials:['Somatic Experiencing practitioner','MA Clinical Psychology','Host, Kyoto Autumn Integration','Bilingual EN/JP'],
+    past:[{name:'Kyoto 2028',role:'Host',slot:'past-n1'},{name:'Nara Circle 2026',role:'Session lead',slot:'past-n2'},{name:'Costa Rica 2025',role:'Participant',slot:'past-n3'}],
+    stats:[{value:'2',label:'Retreats led'},{value:'2',label:'Guests she brings'},{value:'8yr',label:'In practice'},{value:'4.1k',label:'Audience'}],
+    availability:[{window:'Oct 2028',state:'Hosting'},{window:'Nov 2027',state:'Open'},{window:'2029',state:'Open'}]
+  }
+};
+
+const ELEMENTS = [
+  {num:'01',name:'Workshops & circles',desc:'Intimate one-hour gatherings at the villa on vision, alignment, purpose and life.'},
+  {num:'02',name:'Wellness resets',desc:'Pool, sauna, red light, hammocks and quiet time to downshift the nervous system.'},
+  {num:'03',name:'Adventure',desc:'Designed to stretch comfort zones and reconnect you to aliveness. Slower track always available.'},
+  {num:'04',name:'Teamwork',desc:'A surprise team challenge that builds collaboration — with a prize and a lot of laughing.'},
+  {num:'05',name:'Contribution',desc:'Give back to the local community and connect with the land. The day people remember most.'},
+  {num:'06',name:'Speaking & sizzle',desc:'Share your vision from the stage. Filmed, and yours to keep and repurpose.'},
+  {num:'07',name:'Rejuvenation',desc:'Beach, national park, spa, rest or quiet exploration. Unstructured on purpose.'},
+  {num:'08',name:'Integration',desc:'Turn insight into momentum. Leave with a clearer path for your life and work.'},
+  {num:'09',name:'The network',desc:'Qualify to lead future retreats and join a circle of leaders who share what works.'}
+];
+
+const DAYS = [
+  {label:'Day 1 · Nov 1',title:'Arrival',desc:'Gather mid-morning in San José and head toward Jaco. Check into the villa, settle into the rhythm, and open with a welcome feast prepared by a private chef.'},
+  {label:'Day 2 · Nov 2',title:'Opening circle',desc:'Morning practice, then the first leader roundtable. Everyone contributes; no one performs.'},
+  {label:'Day 3 · Nov 3',title:'Adventure',desc:'ATVs through the jungle, waterfalls, and mud — or a massage and a hammock if that is the braver choice for you today.'},
+  {label:'Day 4 · Nov 4',title:'Contribution',desc:'A community project with local partners. Consistently the day people talk about a year later.'},
+  {label:'Day 5 · Nov 5',title:'Stage talks',desc:'Filmed talks in front of a local audience. You leave with the footage and the title of international speaker.'},
+  {label:'Day 6 · Nov 6',title:'To La Fortuna',desc:'Transfer north to volcano country. Hot springs in the evening, no agenda.'},
+  {label:'Day 7 · Nov 7',title:'Teamwork',desc:'The surprise team challenge, and a prize worth competing for.'},
+  {label:'Day 8 · Nov 8',title:'Integration',desc:'Synthesis, commitments and a final circle on the villa deck.'},
+  {label:'Day 9 · Nov 9',title:'Departure',desc:'Slow morning, group transport to San José, and a room full of people you will still be building with next year.'}
+];
+
+const APPLICANTS = [
+  {id:'maya',slot:'app-maya',name:'Dr. Maya Okafor',stage:'Co-creator',tag:'New',title:'Functional medicine physician',location:'Austin, TX',role:'longevity',
+   c1:'Longevity',c2:'Metabolic health',c3:'MD, IFMCP',
+   pitch:'A three-session arc: baseline testing on day one, a daily metabolic protocol, and an exit review each participant takes home with real numbers on it.',
+   experience:'3 retreats led',guests:'brings ~4 guests',video:'Video intro ▸'},
+  {id:'james',slot:'app-james',name:'James Whitfield',stage:'Leader',tag:'',title:'Longevity coach & breathwork facilitator',location:'Denver, CO',role:'longevity',
+   c1:'Breathwork',c2:'Cold exposure',c3:'Oxygen Advantage',
+   pitch:'The 6am slot: breath, cold and movement every morning, plus one mid-week session on regulating a nervous system that has been running hot for years.',
+   experience:'4 retreats led',guests:'brings ~2 guests',video:'Video intro ▸'},
+  {id:'priya',slot:'app-priya',name:'Priya Raman',stage:'Leader',tag:'',title:'Executive coach & author',location:'Lisbon, PT',role:'wellness',
+   c1:'Leadership',c2:'Founder strategy',c3:'ICF Master Coach',
+   pitch:'One honest hour per participant on the decision they are avoiding, then a group session turning those into commitments before anyone flies home.',
+   experience:'6 retreats led',guests:'brings ~3 guests',video:'No video'},
+  {id:'noor',slot:'app-noor',name:'Noor Haddad',stage:'Participant',tag:'',title:'Somatic therapist',location:'Kyoto, JP',role:'wellness',
+   c1:'Somatics',c2:'Integration',c3:'SE practitioner',
+   pitch:'Integration design — the two weeks after the retreat, structured so what landed in Costa Rica is still there in March.',
+   experience:'2 retreats led',guests:'brings ~2 guests',video:'Video intro ▸'}
+];
+
+const NEEDS = {
+  cr: [
+    {label:'Venue',detail:'Jungle villa, Jaco + La Fortuna',state:'Locked',who:'Casa Verde Jaco'},
+    {label:'Leaders',detail:'Longevity · wellness · leadership',state:'2 of 4',who:'2 applicants waiting'},
+    {label:'Photographer',detail:'Trip coverage + stage talks',state:'Open',who:'No applicants yet'},
+    {label:'Videographer',detail:'Sizzle reel + filmed talks',state:'In review',who:'3 quotes in'},
+    {label:'Private chef',detail:'Villa dinners, 8 nights',state:'Locked',who:'Chef Marisol R.'},
+    {label:'Transportation',detail:'SJO transfers + in-country',state:'Open',who:'No applicants yet'}
+  ],
+  ash: [
+    {label:'Venue',detail:'Blue Ridge mountain house',state:'In review',who:'2 options held'},
+    {label:'Co-creators',detail:'Founding cohort of four',state:'0 of 4',who:'Selection in progress'},
+    {label:'Photographer',detail:'Full week coverage',state:'Open',who:'No applicants yet'},
+    {label:'Videographer',detail:'Taste of Wellness stage',state:'Open',who:'No applicants yet'},
+    {label:'Private chef',detail:'Local farm-to-table',state:'Open',who:'No applicants yet'},
+    {label:'Transportation',detail:'AVL transfers',state:'Locked',who:'Blue Ridge Shuttle'}
+  ]
+};
+NEEDS.jp = [
+  {label:'Venue',detail:'Ryokan + city stays',state:'Locked',who:'Live Your List'},
+  {label:'Leaders',detail:'Roster complete',state:'4 of 4',who:'Confirmed'},
+  {label:'Photographer',detail:'Full trip coverage',state:'Locked',who:'Kenji A.'},
+  {label:'Videographer',detail:'Sizzle reel',state:'Locked',who:'Kenji A.'},
+  {label:'Private chef',detail:'Ryokan kitchens',state:'Not needed',who:'Included with venue'},
+  {label:'Transportation',detail:'Rail passes + transfers',state:'Locked',who:'JR Group'}
+];
+NEEDS.peru = [
+  {label:'Venue',detail:'Hacienda outside Urubamba',state:'Locked',who:'Hacienda Solar'},
+  {label:'Leaders',detail:'Breathwork · nutrition',state:'2 of 4',who:'1 applicant waiting'},
+  {label:'Photographer',detail:'Testing days + landscape',state:'Open',who:'No applicants yet'},
+  {label:'Videographer',detail:'Optional',state:'Not needed',who:'Host is covering this'},
+  {label:'Private chef',detail:'Protocol-aligned menus',state:'In review',who:'2 quotes in'},
+  {label:'Transportation',detail:'Cusco transfers',state:'Locked',who:'Valle Transfers'}
+];
+NEEDS.lis = [
+  {label:'Venue',detail:'Quinta in the Sintra hills',state:'Locked',who:'Quinta do Vale'},
+  {label:'Leaders',detail:'Leadership / development',state:'2 of 3',who:'1 applicant waiting'},
+  {label:'Photographer',detail:'Two days, coastal',state:'In review',who:'3 quotes in'},
+  {label:'Videographer',detail:'Optional',state:'Not needed',who:'Host is covering this'},
+  {label:'Private chef',detail:'Three dinners',state:'Open',who:'No applicants yet'},
+  {label:'Transportation',detail:'Lisbon airport runs',state:'Open',who:'No applicants yet'}
+];
+NEEDS.kyo = [
+  {label:'Venue',detail:'Machiya townhouse',state:'Locked',who:'Machiya Nishijin'},
+  {label:'Leaders',detail:'Wellness · movement · creative',state:'1 of 4',who:'No applicants yet'},
+  {label:'Photographer',detail:'Momiji season coverage',state:'Open',who:'No applicants yet'},
+  {label:'Videographer',detail:'Short film',state:'Open',who:'No applicants yet'},
+  {label:'Private chef',detail:'Shojin ryori evenings',state:'In review',who:'1 quote in'},
+  {label:'Transportation',detail:'Kansai transfers',state:'Open',who:'No applicants yet'}
+];
+
+const NEED_FALLBACK = [
+  {label:'Venue',detail:'Confirmed by host',state:'Locked',who:'On file'},
+  {label:'Leaders',detail:'See open slots below',state:'Open',who:'Accepting applications'},
+  {label:'Photographer',detail:'Trip coverage',state:'Open',who:'No applicants yet'},
+  {label:'Private chef',detail:'Group meals',state:'In review',who:'Quotes in'},
+  {label:'Transportation',detail:'Airport + in-country',state:'Open',who:'No applicants yet'},
+  {label:'Videographer',detail:'Optional',state:'Not needed',who:'Host is covering this'}
+];
+
+function summarize(id){
+  const rows = NEEDS[id] || NEED_FALLBACK;
+  const counted = rows.filter(r => r.state !== 'Not needed');
+  const locked = counted.filter(r => r.state === 'Locked' || /^(\d+) of \1$/.test(r.state));
+  const open = counted.filter(r => r.state === 'Open' || (/ of /.test(r.state) && !/^(\d+) of \1$/.test(r.state)));
+  const strip = open.length
+    ? 'Needs ' + open.map(r => {
+        if (!/ of /.test(r.state)) return r.label.toLowerCase();
+        const left = parseInt(r.state.split(' of ')[1],10) - parseInt(r.state.split(' of ')[0],10);
+        const word = r.label.toLowerCase();
+        return left + ' ' + (left === 1 ? word.replace(/s$/,'') : word);
+      }).join(' · ')
+    : 'Fully staffed';
+  const one = (r) => {
+    if (!/ of /.test(r.state)) return r.label;
+    const left = parseInt(r.state.split(' of ')[1],10) - parseInt(r.state.split(' of ')[0],10);
+    return left + ' ' + (left === 1 ? r.label.replace(/s$/,'') : r.label);
+  };
+  return {
+    strip,
+    readiness: locked.length + ' of ' + counted.length + ' locked',
+    pct: Math.round(locked.length / counted.length * 100) + '%',
+    openCats: open.map(r => r.label),
+    openBadges: open.map(r => ({label:'Need ' + one(r).toLowerCase()})),
+    lockedBadges: locked.map(r => ({label:r.label + ' chosen'}))
+  };
+}
+
+const ROLE_MODEL = [
+  {key:'host', name:'Host', tag:'Owns the retreat', slot:'role-host',
+   desc:'Creates the retreat, sets the price and the terms, and decides who joins the team. One person, one word — organizer and host are the same job.',
+   cats:['Retreat host','Co-host','Co-creator'],
+   proof:'Verified past retreats, participant reviews, cancellation record, deposit terms.'},
+  {key:'exp', name:'Experience providers', tag:'Shape what happens', slot:'role-exp',
+   desc:'The people whose work participants actually experience. They teach, facilitate, speak, treat and hold the room — and they bring audiences.',
+   cats:['Retreat leaders','Teachers & educators','Speakers','Facilitators','Coaches & consultants','Practitioners & healers','Clinicians','Movement & fitness','Chefs as teachers'],
+   proof:'Credentials, topics taught, past sessions, video intro, guests brought, tier.'},
+  {key:'prod', name:'Production providers', tag:'Make it possible', slot:'role-prod',
+   desc:'The suppliers a retreat cannot run without. Local, category-specific, and judged on portfolio and reliability rather than teaching ability.',
+   cats:['Venues','Private chefs & catering','Photographers','Videographers','Transportation','Retreat planners','Excursion operators','Equipment & rentals'],
+   proof:'Portfolio or gallery, capacity and rates, insurance, host reviews, response time.'},
+  {key:'part', name:'Participants', tag:'Come for the experience', slot:'role-part',
+   desc:'Opening once supply is dense. They discover retreats through the people leading them — which is why every profile carries a video.',
+   cats:['Participants','Alumni','Referred guests'],
+   proof:'Attendance history, referral attribution, reviews left.'}
+];
+
+const BADGE_LEGEND = [
+  {group:'Need badges — on a retreat',items:[
+    {label:'Locked',note:'Filled and confirmed. Shows who.'},
+    {label:'2 of 4',note:'Multi-slot need, partially filled.'},
+    {label:'In review',note:'Applicants or quotes in, host deciding.'},
+    {label:'Open',note:'No one yet. Visible to the whole network.'},
+    {label:'Not needed',note:'Host is covering it — counts as neither open nor locked.'}
+  ]},
+  {group:'Readiness — one number per retreat',items:[
+    {label:'4 of 6 locked',note:'How complete the production is. Drives Fill Forecast.'},
+    {label:'Fully staffed',note:'Nothing open. Still accepts speculative interest.'}
+  ]},
+  {group:'Person badges',items:[
+    {label:'Newcomer',note:'On the platform, under 2 verified retreats.'},
+    {label:'Contributor',note:'Verified retreats, has brought guests.'},
+    {label:'Trailblazer',note:'Repeat leader with a real guest record.'},
+    {label:'Anchor',note:'Has led or hosted at scale. Top of the ladder.'},
+    {label:'Verified',note:'Identity and past retreats confirmed by the hosts of those retreats.'},
+    {label:'Video on file',note:'A two-minute intro exists. Ranks above profiles without one.'}
+  ]}
+];
+
+const TIERS = {
+  travis:{name:'Anchor',note:'5 retreats led · 40+ guests brought',verified:true,video:true},
+  robert:{name:'Anchor',note:'10+ trips led · 180 participants',verified:true,video:true},
+  maya:{name:'Trailblazer',note:'3 retreats · 11 guests brought',verified:true,video:true},
+  james:{name:'Contributor',note:'4 retreats · 6 guests brought',verified:true,video:true},
+  priya:{name:'Trailblazer',note:'6 retreats · 14 guests brought',verified:true,video:false},
+  noor:{name:'Newcomer',note:'2 retreats · 3 guests brought',verified:false,video:true}
+};
+
+const TYPES = ['Wellness','Medicine','Longevity','Fitness','Nutrition','Personal development','Business','Spirituality','Other'];
+const LADDER = ['Participant','Leader','Co-creator','Creator'];
+const LADDER_NOTE = ['Joined a retreat','Led a session','Built one','Runs their own'];
+
+class Component extends DCLogic {
+  state = {
+    screen:'landing', user:null, pending:null, loginRole:'leader',
+    retreatId:'cr', leaderId:'travis', dayIndex:0, step:1,
+    query:'', loc:'', when:'', cat:'', price:'', dur:'', seeking:false,
+    dirFilter:'All', needCat:'Any need',
+    types:['Wellness','Longevity','Personal development'], counts:{Wellness:1,Longevity:1,'Personal development':2},
+    form:{name:'',location:'',start:'',end:'',duration:'',desc:'',who:'',unique:'',category:'Wellness & longevity',participants:'',priceIn:'',reqs:''},
+    apply:{role:'Functional medicine / longevity',why:'',teach:'',exp:'',links:''},
+    applyDone:false, decided:{}, slotTab:'longevity', toast:''
+  };
+
+  go(screen){ this.setState({screen, toast:''}); if (typeof window !== 'undefined') window.scrollTo(0,0); }
+  flash(msg){ this.setState({toast:msg}); clearTimeout(this._t); this._t = setTimeout(()=>this.setState({toast:''}), 2800); }
+  gate(screen){ if (this.state.user) this.go(screen); else { this.setState({pending:screen}); this.go('login'); } }
+
+  renderVals(){
+    const s = this.state;
+    const retreat = RETREATS[s.retreatId] || RETREATS.cr;
+    const leader = LEADERS[s.leaderId] || LEADERS.travis;
+    const day = DAYS[s.dayIndex];
+
+    const list = Object.values(RETREATS).filter(r => {
+      if (s.query){ const q = s.query.toLowerCase();
+        if (!(r.name+' '+r.location+' '+r.host+' '+r.category+' '+r.blurb).toLowerCase().includes(q)) return false; }
+      if (s.loc && r.country !== s.loc) return false;
+      if (s.when && r.year !== s.when) return false;
+      if (s.cat && r.category !== s.cat) return false;
+      if (s.price && r.priceBand !== s.price) return false;
+      if (s.dur && r.durBand !== s.dur) return false;
+      if (s.seeking && r.openSlots.startsWith('0')) return false;
+      if (s.needCat && s.needCat !== 'Any need' && !summarize(r.id).openCats.includes(s.needCat)) return false;
+      return true;
+    });
+
+    const openRetreat = (id) => () => { this.setState({retreatId:id, dayIndex:0}); this.go('retreat'); };
+    const openLeader = (id) => () => { this.setState({leaderId:id}); this.go('leader'); };
+
+    const card = (r) => {
+      const sum = summarize(r.id);
+      return {
+        slot:r.slot, hostSlot:r.hostSlot, name:r.name, badge:r.badge, category:r.category,
+        meta:r.location + ' · ' + r.dates + ' · ' + r.duration, blurb:r.blurb, host:r.host, price:r.price,
+        needsStrip:sum.strip, readiness:sum.readiness, pct:sum.pct,
+        openBadges:sum.openBadges, lockedBadges:sum.lockedBadges,
+        open:openRetreat(r.id), save:()=>this.flash('Saved ' + r.short + ' to your list')
+      };
+    };
+
+    const seekingOpen = Object.values(RETREATS).filter(r=>!r.openSlots.startsWith('0'));
+
+    const crSlots = [
+      {role:'Functional medicine / longevity expert', detail:'Clinical depth — protocol, testing, and a teaching session', status:'1 open'},
+      {role:'Wellness practitioner', detail:'Daily practice, bodywork or breath', status:'1 open'},
+      {role:'Leadership / personal development expert', detail:'Filled by Travis Richardson', status:'Filled'}
+    ];
+
+    const roleState = {'Functional medicine / longevity':'1 open','Wellness practitioner':'1 open','Leadership / personal development':'Filled'};
+    const roleOptions = Object.keys(roleState).map(label => {
+      const on = s.apply.role === label;
+      return { label, state:roleState[label], pick:()=>this.setState({apply:{...s.apply, role:label}}),
+        bd:on?A:'#e8ded2', bg:on?'#f9f0e8':'#fffdfa', dot:on?A:'#c9ab93', dotFill:on?A:'transparent' };
+    });
+
+    const totalSlots = s.types.reduce((n,t)=>n+(s.counts[t]||1),0);
+    const accepted = Object.values(s.decided).filter(v=>v==='Accepted').length;
+
+    return {
+      isGuest: !s.user, isAuthed: !!s.user,
+      userLabel: s.user === 'organizer' ? 'Travis' : 'Dr. Okafor',
+      toast: s.toast,
+      onLanding: s.screen==='landing', onExplore: s.screen==='explore', onRetreat: s.screen==='retreat',
+      onLeaders: s.screen==='leaders', onLeader: s.screen==='leader', onCreate: s.screen==='create',
+      onApply: s.screen==='apply', onDash: s.screen==='dash', onApps: s.screen==='apps',
+      onLogin: s.screen==='login', onCohort: s.screen==='cohort', onRoles: s.screen==='roles',
+
+      needFilters: ['Any need','Leaders','Venue','Photographer','Videographer','Private chef','Transportation'].map(label=>{
+        const on = (s.needCat || 'Any need') === label;
+        return { label, pick:()=>this.setState({needCat:label}),
+          bd:on?A:'#e8ded2', bg:on?A:'transparent', fg:on?'#fefaf4':'#5f524a' };
+      }),
+      roleModel: ROLE_MODEL.map(r=>({...r, cats:r.cats.map(label=>({label})), browse:()=>this.go(r.key==='prod'||r.key==='exp'?'leaders':'explore')})),
+      badgeLegend: BADGE_LEGEND.map(g=>({group:g.group, items:g.items})),
+      navRoles: ()=>this.go('roles'),
+      boardReadiness: summarize(retreat.id).readiness,
+      boardPct: summarize(retreat.id).pct,
+
+      navLanding: ()=>this.go('landing'),
+      navExplore: ()=>this.go('explore'),
+      navLeaders: ()=>this.go('leaders'),
+      navCreate: ()=>this.gate('create'),
+      navHow: ()=>this.go('roles'),
+      navCohort: ()=>this.go('cohort'),
+      navLogin: ()=>this.go('login'),
+      navDash: ()=>{ if(!s.user) this.setState({user:'organizer'}); this.go('dash'); },
+      navApps: ()=>this.go('apps'),
+      navProfile: ()=>{ this.setState({leaderId: s.user==='organizer' ? 'travis' : 'maya'}); this.go('leader'); },
+      openCostaRica: openRetreat('cr'),
+
+      featured: seekingOpen.slice(0,3).map(card),
+      retreats: list.map(card),
+      resultCount: list.length, seekingCount: seekingOpen.length,
+      query:s.query, loc:s.loc, when:s.when, cat:s.cat, price:s.price, dur:s.dur,
+      setQuery:e=>this.setState({query:e.target.value}),
+      setLoc:e=>this.setState({loc:e.target.value}),
+      setWhen:e=>this.setState({when:e.target.value}),
+      setCat:e=>this.setState({cat:e.target.value}),
+      setPrice:e=>this.setState({price:e.target.value}),
+      setDur:e=>this.setState({dur:e.target.value}),
+      toggleSeeking:()=>this.setState({seeking:!s.seeking}),
+      seekingBg: s.seeking?A:'transparent', seekingFg: s.seeking?'#fefaf4':A,
+
+      retreat,
+      elements: ELEMENTS.map((e,i)=>({...e, slot:'el-'+i})),
+      days: DAYS.map((d,i)=>({label:d.label.split(' · ')[0], title:d.title, pick:()=>this.setState({dayIndex:i}),
+        bd: i===s.dayIndex?A:'#e8ded2', bg: i===s.dayIndex?'#f9f0e8':'#fffdfa'})),
+      day,
+      audience: ['Founders & entrepreneurs','Coaches & consultants','Speakers & authors','Leaders & healers','Anyone who needs a reset'].map(label=>({label})),
+      crew: [
+        {name:'Travis Richardson', role:'Host & leadership lead', slot:'crew-1', open:openLeader('travis')},
+        {name:'Priya Raman', role:'Confirmed · strategy', slot:'crew-2', open:openLeader('priya')},
+        {name:'Open slot', role:'Longevity expert', slot:'crew-3', open:()=>this.flash('This slot is still open — 2 applicants waiting')},
+        {name:'Open slot', role:'Wellness practitioner', slot:'crew-4', open:()=>this.flash('This slot is still open — 2 applicants waiting')}
+      ],
+      slots: crSlots.map(x=>({role:x.role, detail:x.detail, status:x.status})),
+      included: ['Villa accommodations, double occupancy','Lunches, dinners and private chef meals','All in-country group transportation','Every planned experience and excursion','Your talk filmed on location','Featured placement in the network'].map(label=>({label})),
+      needs: (NEEDS[retreat.id] || NEED_FALLBACK).map(n => {
+        const locked = n.state === 'Locked';
+        const open = n.state === 'Open';
+        const none = n.state === 'Not needed';
+        return { label:n.label, detail:n.detail, state:n.state, who:n.who,
+          bd: locked ? '#cfd8c4' : (open ? '#d9bda6' : '#e8ded2'),
+          bg: locked ? '#f2f5ee' : (open ? '#f9f0e8' : '#fffdfa'),
+          fg: locked ? '#5c6b4a' : (none ? MUTE : A),
+          mark: locked ? '✓' : (none ? '—' : '?'),
+          act: () => this.flash(locked ? n.label + ' locked — ' + n.who : (none ? n.label + ' is not needed on this retreat' : n.label + ' · ' + n.who)) };
+      }),
+      seatCredit: {
+        headline: 'Bring 1 more guest for a free seat',
+        detail: 'Your seat is covered in thirds: 1 guest covers a third, 2 covers two-thirds, 3 covers it entirely.',
+        brought: '2 of 3 guests confirmed',
+        pct: '66%',
+        value: 'You have earned $5,331 of $7,997'
+      },
+      tier: TIERS[leader.id] || {name:'Newcomer',note:'',verified:false,video:false},
+      tierVerified: (TIERS[leader.id] || {}).verified ? 'Identity & retreats verified' : 'Verification pending',
+      tierVideo: (TIERS[leader.id] || {}).video ? 'Video intro on file' : 'No video yet',
+      viewHost: openLeader(retreat.hostId),
+      startApply: ()=>{ this.setState({applyDone:false}); this.gate('apply'); },
+      save: ()=>this.flash('Saved ' + retreat.short + ' to your list'),
+
+      dirFilters: ['All','Wellness','Longevity','Medicine','Leadership','Available now'].map(label=>{
+        const on = s.dirFilter===label;
+        return { label, pick:()=>this.setState({dirFilter:label}), bd:on?A:'#e8ded2', bg:on?A:'transparent', fg:on?'#fefaf4':'#5f524a' };
+      }),
+      directory: Object.values(LEADERS).map(l=>{
+        const t = TIERS[l.id] || {};
+        return { slot:l.slot, name:l.name, title:l.title, location:l.location, stage:l.stage, status:l.status,
+          t1:l.t1, t2:l.t2, open:openLeader(l.id),
+          tierName:t.name, tierNote:t.note,
+          tierBd: t.verified ? '#cfd8c4' : '#e8ded2', tierBg: t.verified ? '#f2f5ee' : '#f7f0e7',
+          tierFg: t.verified ? '#5c6b4a' : MUTE,
+          videoBadge: t.video ? 'Video intro' : 'No video' };
+      }),
+
+      leader,
+      ladder: LADDER.map((label,i)=>({ label, note:LADDER_NOTE[i],
+        bar: i<=leader.ladderIndex?A:'#eee4d8', fg: i<=leader.ladderIndex?INK:MUTE })),
+      topics: leader.topics.map(label=>({label})),
+      credentials: leader.credentials.map(label=>({label})),
+      pastRetreats: leader.past,
+      stats: leader.stats,
+      availability: leader.availability.map(a=>({window:a.window, state:a.state, fg: a.state==='Open'?A:'#a3948a'})),
+      leaderIsApplicant: leader.applicant && s.user==='organizer',
+      invite: ()=>this.flash('Invitation sent to ' + leader.name),
+      request: ()=>this.flash('Request sent — ' + leader.name + ' will reply in the network'),
+      message: ()=>this.flash('Message thread opened with ' + leader.name),
+      acceptFromProfile: ()=>{ this.setState({decided:{...s.decided,[leader.id]:'Accepted'}}); this.flash(leader.name + ' accepted — 3 of 4 slots filled'); this.go('apps'); },
+
+      step:s.step, step1:s.step===1, step2:s.step===2, step3:s.step===3, step4:s.step===4, step5:s.step===5,
+      notLastStep: s.step<5,
+      steps: ['Basics','Description','Details','Leaders','Publish'].map((label,i)=>({
+        label, pick:()=>this.setState({step:i+1}),
+        bar: i+1<=s.step?A:'#eee4d8', fg: i+1<=s.step?INK:MUTE })),
+      next: ()=>{ this.setState({step:Math.min(5,s.step+1)}); window.scrollTo(0,0); },
+      back: ()=>{ if(s.step===1) this.go('landing'); else { this.setState({step:s.step-1}); window.scrollTo(0,0);} },
+      saveDraft: ()=>this.flash('Draft saved'),
+      f: s.form,
+      setName:e=>this.setState({form:{...s.form,name:e.target.value}}),
+      setLocation:e=>this.setState({form:{...s.form,location:e.target.value}}),
+      setStart:e=>this.setState({form:{...s.form,start:e.target.value}}),
+      setEnd:e=>this.setState({form:{...s.form,end:e.target.value}}),
+      setDuration:e=>this.setState({form:{...s.form,duration:e.target.value}}),
+      setDesc:e=>this.setState({form:{...s.form,desc:e.target.value}}),
+      setWho:e=>this.setState({form:{...s.form,who:e.target.value}}),
+      setUnique:e=>this.setState({form:{...s.form,unique:e.target.value}}),
+      setCategory:e=>this.setState({form:{...s.form,category:e.target.value}}),
+      setParticipants:e=>this.setState({form:{...s.form,participants:e.target.value}}),
+      setPriceIn:e=>this.setState({form:{...s.form,priceIn:e.target.value}}),
+      setReqs:e=>this.setState({form:{...s.form,reqs:e.target.value}}),
+      typeChips: TYPES.map(label=>{
+        const on = s.types.includes(label);
+        return { label, bd:on?A:'#e8ded2', bg:on?A:'#fffdfa', fg:on?'#fefaf4':'#5f524a',
+          toggle:()=>{
+            const types = on ? s.types.filter(t=>t!==label) : [...s.types,label];
+            const counts = {...s.counts}; if(!on && !counts[label]) counts[label]=1;
+            this.setState({types,counts});
+          }};
+      }),
+      typeCounts: s.types.map(label=>({
+        label, count: s.counts[label]||1,
+        inc:()=>this.setState({counts:{...s.counts,[label]:Math.min(9,(s.counts[label]||1)+1)}}),
+        dec:()=>this.setState({counts:{...s.counts,[label]:Math.max(1,(s.counts[label]||1)-1)}})
+      })),
+      noTypes: s.types.length===0,
+      totalSlots,
+      previewName: s.form.name || 'Costa Rica Wellness & Longevity Retreat',
+      previewMeta: (s.form.location || 'Jaco & La Fortuna, Costa Rica') + ' · ' + (s.form.start || 'Nov 1, 2027') + ' – ' + (s.form.end || 'Nov 9, 2027') + ' · ' + (s.form.duration || '9 days'),
+      previewDesc: s.form.desc || 'An immersive retreat combining longevity, wellness, nature, and transformational experiences.',
+      previewPrice: s.form.priceIn || '$7,997',
+      previewParticipants: s.form.participants || '14',
+      previewSlots: s.types.map(label=>({label, count:s.counts[label]||1})),
+      publish: ()=>{ this.setState({user:'organizer'}); this.flash('Retreat published — leaders can now apply'); this.go('dash'); },
+
+      a: s.apply, roleOptions,
+      applyDone: s.applyDone, applyOpen: !s.applyDone,
+      setWhy:e=>this.setState({apply:{...s.apply,why:e.target.value}}),
+      setTeach:e=>this.setState({apply:{...s.apply,teach:e.target.value}}),
+      setExp:e=>this.setState({apply:{...s.apply,exp:e.target.value}}),
+      setLinks:e=>this.setState({apply:{...s.apply,links:e.target.value}}),
+      submitApply: ()=>{ this.setState({applyDone:true}); window.scrollTo(0,0); },
+      backToRetreat: ()=>this.go('retreat'),
+
+      dashGreeting: 'Three retreats · ' + (7-accepted) + ' applications waiting on you',
+      dashStats: [
+        {value:'3',label:'Retreats',bd:'#e8ded2',bg:'#fffdfa',fg:INK},
+        {value:String(7-accepted),label:'New applications',bd:'#d9bda6',bg:'#f9f0e8',fg:A},
+        {value:String(5-accepted),label:'Leader slots to fill',bd:'#e8ded2',bg:'#fffdfa',fg:INK},
+        {value:'11',label:'Participants booked',bd:'#e8ded2',bg:'#fffdfa',fg:INK}
+      ],
+      myRetreats: [
+        {slot:'my-cr',name:'Costa Rica Wellness & Longevity',status:'Live',statusBg:'#e8ebe2',statusFg:'#5c6b4a',
+         meta:'Jaco & La Fortuna · Nov 1–9, 2027 · 9 days',
+         leaders:(2+accepted)+' of 4 leaders confirmed', pct:((2+accepted)/4*100)+'%',
+         apps:(7-accepted)+' applications', appsNote:'4 unread',
+         participants:'11 participants', participantsNote:'of 14 seats',
+         cta:'Review '+(7-accepted), review:()=>this.go('apps'), manage:()=>this.flash('Retreat editor — not in this prototype')},
+        {slot:'my-ash',name:'Asheville Co-Created Retreat',status:'Draft',statusBg:'#f0e7db',statusFg:'#7d6a5f',
+         meta:'Asheville, NC · Apr 3–11, 2028 · 9 days',
+         leaders:'0 of 4 co-creators', pct:'0%',
+         apps:'Not published', appsNote:'awaiting cohort',
+         participants:'0 participants', participantsNote:'of 16 seats',
+         cta:'Continue setup', review:()=>this.go('create'), manage:()=>this.flash('Retreat editor — not in this prototype')},
+        {slot:'my-jp',name:'Live Your List Japan',status:'Leading',statusBg:'#f0e7db',statusFg:'#7d6a5f',
+         meta:'Japan · Apr 5–13, 2027 · leading, not hosting',
+         leaders:'4 of 4 leaders confirmed', pct:'100%',
+         apps:'Closed', appsNote:'roster complete',
+         participants:'18 participants', participantsNote:'sold out',
+         cta:'View retreat', review:openRetreat('jp'), manage:()=>this.flash('You are a leader on this retreat, not the host')},
+      ],
+      soon: ()=>this.flash('Venues, chefs and photographers join the network next'),
+
+      filledLabel: (2+accepted)+' of 4',
+      slotTabs: [
+        {key:'longevity',label:'Longevity · 2'},
+        {key:'wellness',label:'Wellness · 2'},
+        {key:'filled',label:'Leadership · filled'}
+      ].map(t=>{
+        const on = s.slotTab===t.key;
+        return {label:t.label, pick:()=>this.setState({slotTab:t.key}),
+          bd:on?A:'#e8ded2', bg:on?A:'transparent', fg:on?'#fefaf4':'#5f524a'};
+      }),
+      applicants: APPLICANTS.filter(p => s.slotTab==='filled' ? false : p.role===s.slotTab).map(p=>{
+        const d = s.decided[p.id] || '';
+        const t = TIERS[p.id] || {};
+        return {...p, decision:d, tagFg: p.tag==='New' ? '#5c6b4a' : MUTE,
+          tierName:t.name, tierNote:t.note,
+          tierBd: t.verified ? '#cfd8c4' : '#e8ded2', tierBg: t.verified ? '#f2f5ee' : '#f7f0e7',
+          tierFg: t.verified ? '#5c6b4a' : MUTE,
+          videoBadge: t.video ? 'Video intro ▸' : 'No video',
+          bd: d==='Accepted' ? A : (p.tag==='New' ? '#d9bda6' : '#e8ded2'),
+          bg: p.tag==='New' ? '#f9f0e8' : '#fffdfa',
+          accept:()=>{ this.setState({decided:{...s.decided,[p.id]:'Accepted'}}); this.flash(p.name+' accepted — welcome to the leader team'); },
+          decline:()=>{ this.setState({decided:{...s.decided,[p.id]:'Declined'}}); this.flash(p.name+' declined'); },
+          view:()=>{ this.setState({leaderId:p.id}); this.go('leader'); },
+          message:()=>this.flash('Message thread opened with '+p.name)};
+      }),
+
+      loginNote: s.pending==='create' ? 'Create your account to publish a retreat.' : 'Pick how you show up — you can do both later.',
+      roleLabel: s.loginRole==='leader' ? 'Leader' : 'Organizer',
+      leaderRoleBd: s.loginRole==='leader'?A:'#e8ded2', leaderRoleBg: s.loginRole==='leader'?'#f9f0e8':'#fffdfa',
+      orgRoleBd: s.loginRole==='organizer'?A:'#e8ded2', orgRoleBg: s.loginRole==='organizer'?'#f9f0e8':'#fffdfa',
+      pickLeader: ()=>this.setState({loginRole:'leader'}),
+      pickOrganizer: ()=>this.setState({loginRole:'organizer'}),
+      doLogin: ()=>{
+        const role = s.loginRole;
+        const dest = s.pending || (role==='leader' ? 'explore' : 'dash');
+        this.setState({user:role, pending:null});
+        this.go(dest);
+      },
+
+      stages: [
+        {slot:'stage-jp',kicker:'Stage 1 · Japan · April 5–13, 2027',name:'Experience It',role:'Participant',cost:'$12k–15k',
+         desc:'You arrive as a guest. Watch how transformation is structured across a whole trip — and give your own stage talk from the first retreat.'},
+        {slot:'stage-cr',kicker:'Stage 2 · Costa Rica · November 1–9, 2027',name:'Lead It',role:'Leader',cost:'Covered',
+         desc:'Travis hosts; you are one of four leaders. Run a workshop, invite guests, and walk away with footage, photos and testimonials you keep.'},
+        {slot:'stage-ash',kicker:'Stage 3 · Asheville · April 3–11, 2028',name:'Create It',role:'Co-creator',cost:'Profit share',
+         desc:'The cohort creates a real retreat alongside Travis — positioning, budget, pricing, vendors and enrollment, with the split agreed in writing first.'},
+        {slot:'stage-own',kicker:'Stage 4 · Your own retreat · 2028 and beyond',name:'Own It',role:'Creator',cost:'100% yours',
+         desc:'Run it independently, or with network support up to a full partnership. Either way you keep the collaborators, vendors and participants.'}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

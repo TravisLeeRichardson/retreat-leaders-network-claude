@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Retreat Leaders Network
 
-## Getting Started
+A Next.js implementation of the "Retreat Leaders Network v2" concept from
+Claude Design — a marketplace connecting retreat organizers with the leaders,
+speakers, and practitioners who help run their retreats.
 
-First, run the development server:
+## What's here
+
+This app is a real, working port of the design canvas prototype
+(`design-src/Retreat Leaders Network v2.dc.html`), not just a static copy.
+The design tool's `{{ }}` template bindings, `sc-if`/`sc-for` blocks, and
+class-based state (`Component` / `renderVals()`) were translated into:
+
+- **`lib/data.js`** — the retreats, leaders, and reference data as plain JS.
+- **`lib/useAppState.js`** — a React hook that ports the original state shape
+  and derived "vals" 1:1, so every screen, filter, wizard step, and
+  gated-login flow behaves exactly as designed.
+- **`components/screens/*`** — one component per screen (Landing, Explore,
+  Retreat detail, Leaders directory, Leader profile, Create-a-retreat wizard,
+  Apply, Dashboard, Applications, Login, How It Works, Founding Cohort).
+- **`components/ImageSlot.jsx`** — a deterministic gradient placeholder
+  standing in for the design's `<image-slot>` photo drops (no real
+  photography exists yet).
+- **`components/Hover.jsx`** — a small wrapper that reproduces the design's
+  `style-hover="..."` attribute as real React hover state, with keyboard/
+  screen-reader support (`role="button"`, `Enter`/`Space` activation) added
+  on top since the source markup had none.
+
+There's no backend — retreats, leaders, applications, and "logging in" are
+all in-memory mock state, matching the original prototype's scope. Wiring up
+real auth/data storage is the natural next step.
+
+## Brand assets
+
+`public/brand/rln-lockup.png` and `rln-mark.png` are the network's logo
+lockup and mark, pulled from the design project.
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Note: `design-src/` holds the original design canvas export for reference
+(including its own `support.js` runtime) and isn't part of the app build.
