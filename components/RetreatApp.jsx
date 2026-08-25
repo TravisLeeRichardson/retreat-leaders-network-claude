@@ -13,6 +13,7 @@ import Apply from "./screens/Apply";
 import Dashboard from "./screens/Dashboard";
 import Applications from "./screens/Applications";
 import Login from "./screens/Login";
+import ResetPassword from "./screens/ResetPassword";
 import Roles from "./screens/Roles";
 import Cohort from "./screens/Cohort";
 
@@ -34,6 +35,7 @@ export default function RetreatApp() {
       {v.onDash && <Dashboard v={v} />}
       {v.onApps && <Applications v={v} />}
       {v.onLogin && <Login v={v} />}
+      {v.onReset && <ResetPassword v={v} />}
       {v.onRoles && <Roles v={v} />}
       {v.onCohort && <Cohort v={v} />}
     </div>
